@@ -1,0 +1,128 @@
+/* Save-the-Date pop-up + countdown */
+.sd {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(90, 55, 50, 0.5);
+  backdrop-filter: blur(4px);
+  animation: sd-fade 0.35s ease;
+}
+@keyframes sd-fade { from { opacity: 0; } }
+
+.sd__card {
+  position: relative;
+  width: min(92vw, 420px);
+  padding: 34px 26px 26px;
+  text-align: center;
+  background: linear-gradient(180deg, #fffaf6, #fdeee7);
+  border: 1px solid rgba(201, 138, 118, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 30px 70px rgba(120, 70, 60, 0.4);
+  animation: sd-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+@keyframes sd-pop { from { opacity: 0; transform: scale(0.85) translateY(14px); } }
+
+.sd__floral {
+  position: absolute;
+  width: 120px;
+  pointer-events: none;
+  opacity: 0.9;
+}
+.sd__floral--l { top: -18px; left: -22px; transform: scaleX(-1); }
+.sd__floral--r { bottom: -18px; right: -22px; transform: scaleY(-1); }
+
+.sd__eyebrow {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #b0796c;
+}
+.sd__date {
+  margin: 4px 0 0;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  color: #a4574f;
+}
+.sd__rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 8px 0 18px;
+  color: #d2a08f;
+}
+.sd__rule::before, .sd__rule::after {
+  content: '';
+  height: 1px;
+  width: 54px;
+  background: linear-gradient(90deg, transparent, #d2a08f);
+}
+.sd__rule::after { background: linear-gradient(90deg, #d2a08f, transparent); }
+
+/* countdown */
+.cd {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.cd__cell {
+  min-width: 62px;
+  padding: 12px 8px;
+  background: #fffdfb;
+  border: 1px solid #eccfc6;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(150, 90, 80, 0.12);
+}
+.cd__num {
+  display: block;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  line-height: 1;
+  color: #a4574f;
+  font-variant-numeric: tabular-nums;
+}
+.cd__label {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9a7d75;
+}
+.cd__done {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: #a4574f;
+  margin: 0;
+}
+
+.sd__btn {
+  margin-top: 22px;
+  padding: 11px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #c98a76, #a4574f);
+  color: #fff6f2;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(164, 87, 79, 0.35);
+  transition: transform 0.25s ease;
+}
+.sd__btn:hover { transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sd, .sd__card { animation: none; }
+}

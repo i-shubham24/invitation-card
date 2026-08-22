@@ -1,0 +1,350 @@
+/* ===========================================================================
+   Native RSVP section — real React inputs styled to match the Figma rose card
+   =========================================================================== */
+.rsvp-sec {
+  position: relative;
+  width: 100%;
+  max-width: var(--card-max, 460px);
+  margin: 0 auto;
+  padding: 30px 18px 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f7d9d2 0%, #f0c3bb 42%, #e6a49c 100%);
+  isolation: isolate;
+}
+
+/* floating decor ---------------------------------------------------------- */
+.rsvp-sec__lights {
+  position: absolute;
+  top: -4px;
+  left: -4%;
+  width: 108%;
+  opacity: 0.92;
+  pointer-events: none;
+  z-index: 1;
+}
+.rsvp-sec__floral {
+  position: absolute;
+  width: 42%;
+  max-width: 200px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.97;
+  filter: drop-shadow(0 6px 10px rgba(120, 70, 60, 0.12));
+  animation: float-y 7s ease-in-out infinite;
+}
+.rsvp-sec__floral--l { top: 118px; left: -8%; transform: scaleX(-1); }
+.rsvp-sec__floral--r { top: 118px; right: -8%; animation-delay: -3.5s; }
+@keyframes float-y {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 10px; }
+}
+
+/* hanging-lantern floral drapes at the top corners (like the Figma) */
+.rsvp-sec__drape {
+  position: absolute;
+  top: -6px;
+  width: 46%;
+  max-width: 220px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.97;
+  filter: drop-shadow(0 8px 12px rgba(120, 70, 60, 0.14));
+}
+.rsvp-sec__drape--l { left: -6%; }
+.rsvp-sec__drape--r { right: -6%; transform: scaleX(-1); }
+
+/* bottom lake + gurudwara scene */
+.rsvp-sec__scene {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 104%;
+  margin: 18px -2% -1px;
+  pointer-events: none;
+}
+
+/* heading ----------------------------------------------------------------- */
+.rsvp-sec__head {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin: 4px 0 20px;
+}
+.rsvp-sec__rsvp {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  font-size: 1.05rem;
+  color: #8194c6;
+}
+.rsvp-sec__title {
+  margin: 0;
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 10vw, 3.4rem);
+  line-height: 1.1;
+  color: #9a8481;
+}
+.rsvp-sec__before {
+  margin: 2px 0 0;
+  font-family: var(--font-serif);
+  letter-spacing: 0.06em;
+  color: #7a4a42;
+  font-size: 1rem;
+}
+.rsvp-sec__before strong { font-weight: 600; letter-spacing: 0.14em; }
+
+/* form card — light-pink rounded card matching the Figma artwork ---------- */
+.rsvp-card {
+  position: relative;
+  z-index: 2;
+  background: #f8d2c9;
+  border-radius: 34px 34px 26px 26px / 60px 60px 26px 26px;
+  padding: clamp(22px, 6vw, 34px) clamp(18px, 5vw, 30px) clamp(26px, 6vw, 34px);
+  box-shadow: 0 18px 44px rgba(150, 90, 80, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rsvp-card.is-in { opacity: 1; transform: none; }
+
+.rsvp-field { margin-bottom: 18px; }
+.rsvp-field__label {
+  display: block;
+  margin-bottom: 9px;
+  padding-left: 4px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.98rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a26a5f;
+}
+
+/* name input — rose pill, matching the artwork's field -------------------- */
+.rsvp-input {
+  width: 100%;
+  padding: 15px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #ecc6ba;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #6b4139;
+  box-shadow: inset 0 2px 5px rgba(150, 90, 80, 0.12);
+  transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+.rsvp-input::placeholder { color: #b98f81; }
+.rsvp-input:focus {
+  outline: none;
+  background: #f0d0c6;
+  box-shadow: inset 0 2px 5px rgba(150, 90, 80, 0.12), 0 0 0 3px rgba(201, 138, 118, 0.35);
+}
+
+/* attending pills --------------------------------------------------------- */
+.rsvp-attend { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 400px) { .rsvp-attend { grid-template-columns: 1fr; } }
+.rsvp-attend__opt {
+  padding: 14px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #ecc6ba;
+  color: #7a5349;
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: inset 0 2px 5px rgba(150, 90, 80, 0.12);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+}
+.rsvp-attend__opt:hover { transform: translateY(-2px); }
+.rsvp-attend__opt.is-on {
+  background: linear-gradient(120deg, #c98a76, #a4574f);
+  color: #fff5f1;
+  box-shadow: 0 8px 20px rgba(164, 87, 79, 0.4);
+}
+
+.rsvp-collapse > * { }
+
+/* guest stepper — rose bar ------------------------------------------------ */
+.rsvp-step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ecc6ba;
+  border-radius: 999px;
+  padding: 6px 10px;
+  box-shadow: inset 0 2px 5px rgba(150, 90, 80, 0.12);
+}
+.rsvp-step__btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  color: #a4574f;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.rsvp-step__btn:hover { background: rgba(255, 255, 255, 0.85); transform: scale(1.06); }
+.rsvp-step__num {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.7rem;
+  color: #7a4a42;
+  animation: pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes pop { from { transform: scale(0.6); opacity: 0.4; } }
+
+/* ~ events you will be joining ~ (centred script-caps label) -------------- */
+.rsvp-field--events > .rsvp-field__label {
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+.rsvp-events { display: flex; flex-direction: column; gap: 12px; }
+.rsvp-event {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #ecc6ba;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: inset 0 2px 5px rgba(150, 90, 80, 0.1);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+.rsvp-event:hover { transform: translateY(-2px); }
+.rsvp-event.is-on {
+  background: #f1d3c8;
+  box-shadow: inset 0 0 0 2px #c98a76;
+}
+.rsvp-event__ic {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex: none;
+}
+.rsvp-event__text { display: flex; flex-direction: column; line-height: 1.25; flex: 1; }
+.rsvp-event__text strong {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a4a42;
+}
+.rsvp-event__text em {
+  font-style: normal;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: #97756c;
+}
+.rsvp-event__check {
+  width: 27px;
+  height: 27px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 1.5px #cfa99b;
+  color: #fff;
+  font-size: 0.82rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.rsvp-event.is-on .rsvp-event__check {
+  background: #c98a76;
+  box-shadow: inset 0 0 0 1.5px #c98a76;
+}
+
+/* send -------------------------------------------------------------------- */
+.rsvp-btn {
+  width: 78%;
+  display: block;
+  margin: 8px auto 0;
+  padding: 15px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #c3a49b, #a9857b);
+  color: #fff8f4;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(140, 100, 92, 0.34);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+.rsvp-btn:hover { transform: translateY(-3px); filter: brightness(1.05); }
+.rsvp-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+.rsvp-btn--ghost {
+  background: transparent;
+  color: #a4574f;
+  border: 1px solid #cfa99b;
+  box-shadow: none;
+  width: auto;
+  padding: 10px 24px;
+}
+.rsvp-err { margin: 12px 0 0; text-align: center; color: #b23b3b; font-family: var(--font-serif); }
+
+.rsvp-thanks { text-align: center; padding: 14px 0; animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.rsvp-thanks__heart { font-size: 2.4rem; color: #c9736a; }
+.rsvp-thanks h3 {
+  margin: 6px 0;
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: 2.6rem;
+  color: #9a6b62;
+}
+.rsvp-thanks p { color: #7a5349; line-height: 1.6; margin: 0 0 16px; }
+
+/* footer — solid rose band beneath the scene, high-contrast cream text ---- */
+.rsvp-foot {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin: 0;
+  padding: 26px 20px 40px;
+  background: #d5807a;
+  color: #fff4f0;
+}
+.rsvp-foot__with {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: #ffe9e3;
+}
+.rsvp-foot__names {
+  margin: 4px 0;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.2rem, 9vw, 3rem);
+  color: #fffaf8;
+  text-shadow: 0 1px 6px rgba(120, 55, 50, 0.35);
+}
+.rsvp-foot__div { width: 150px; max-width: 55%; margin: 2px auto 10px; opacity: 0.95; filter: brightness(1.6); }
+.rsvp-foot__date { margin: 0; font-family: var(--font-serif); font-size: 1.2rem; color: #fff4f0; }
+.rsvp-foot__tag {
+  margin: 12px 0 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  font-size: 0.82rem;
+  color: #ffe0d9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsvp-sec__floral { animation: none; }
+}

@@ -1,0 +1,50 @@
+{
+ "ratio": 14.30607476635514,
+ "slices": [
+  {
+   "src": "s1.jpg",
+   "hfrac": 0.111982,
+   "topfrac": 0.0
+  },
+  {
+   "src": "s2.jpg",
+   "hfrac": 0.128042,
+   "topfrac": 0.111982
+  },
+  {
+   "src": "s3.jpg",
+   "hfrac": 0.094997,
+   "topfrac": 0.240024
+  },
+  {
+   "src": "s4.jpg",
+   "hfrac": 0.114976,
+   "topfrac": 0.335021
+  },
+  {
+   "src": "s5.jpg",
+   "hfrac": 0.116011,
+   "topfrac": 0.449997
+  },
+  {
+   "src": "s6.jpg",
+   "hfrac": 0.095977,
+   "topfrac": 0.566008
+  },
+  {
+   "src": "s7.jpg",
+   "hfrac": 0.097991,
+   "topfrac": 0.661985
+  },
+  {
+   "src": "s8.jpg",
+   "hfrac": 0.100005,
+   "topfrac": 0.759976
+  },
+  {
+   "src": "s9.jpg",
+   "hfrac": 0.140019,
+   "topfrac": 0.859981
+  }
+ ]
+}
