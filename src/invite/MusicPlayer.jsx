@@ -1,41 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { toggleMusic, isMusicPlaying, onMusicChange } from '../lib/music'
 
 /**
- * MusicPlayer — vinyl button that plays "Jogi" directly. Static disc; the
- * tonearm needle rests on the record and tracks in when playing.
+ * MusicPlayer — vinyl button bound to the shared "Jogi" audio element (started
+ * on the envelope's heart-tap). Tap to pause/resume. Static disc; the tonearm
+ * needle tracks in while playing.
  */
 export default function MusicPlayer() {
-  const audioRef = useRef(null)
-  const [playing, setPlaying] = useState(false)
+  const [playing, setPlaying] = useState(isMusicPlaying())
 
-  useEffect(() => {
-    const audio = new Audio('/media/jogi.mp3')
-    audio.loop = true
-    audio.volume = 0.6
-    audio.addEventListener('play', () => setPlaying(true))
-    audio.addEventListener('pause', () => setPlaying(false))
-    audioRef.current = audio
-    return () => {
-      audio.pause()
-      audioRef.current = null
-    }
-  }, [])
-
-  function toggle() {
-    const audio = audioRef.current
-    if (!audio) return
-    if (audio.paused) {
-      audio.play().catch(() => setPlaying(false))
-    } else {
-      audio.pause()
-    }
-  }
+  useEffect(() => onMusicChange(() => setPlaying(isMusicPlaying())), [])
 
   return (
     <button
       type="button"
       className={`music-btn ${playing ? 'is-playing' : ''}`}
-      onClick={toggle}
+      onClick={() => toggleMusic().catch(() => {})}
       aria-label={playing ? 'Pause music' : 'Play music'}
       title={playing ? 'Pause music' : 'Play music'}
     >

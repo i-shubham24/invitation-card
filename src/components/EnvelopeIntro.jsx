@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { playMusic } from '../lib/music'
 import './EnvelopeIntro.css'
 
 /**
@@ -13,6 +14,8 @@ export default function EnvelopeIntro({ onOpened }) {
 
   function handleOpen() {
     if (open) return
+    // Start the music now — this tap is the user gesture browsers require.
+    playMusic().catch(() => {})
     setOpen(true)
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     window.setTimeout(() => onOpened?.(), reduced ? 300 : 2100)
