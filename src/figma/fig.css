@@ -1,0 +1,236 @@
+.fig {
+  position: relative;
+  width: 100%;
+  max-width: var(--card-max, 460px);
+  margin: 0 auto;
+  container-type: inline-size; /* cqw resolves against this width */
+  background: #e9bcae; /* deeper blush base (was #f7ddd6) */
+  overflow: hidden;
+}
+
+/* Light backing behind the RSVP form; z below the frame decorations (86) */
+.fig__formbg {
+  position: absolute;
+  left: 9%;
+  top: 90.1%;
+  width: 82%;
+  height: 5.6%;
+  z-index: 50;
+  background: rgba(255, 248, 244, 0.5);
+  border-radius: 5cqw;
+  box-shadow: 0 1cqw 3cqw rgba(150, 90, 80, 0.12);
+  backdrop-filter: blur(1px);
+}
+
+.fig__img {
+  position: absolute;
+  object-fit: fill;
+  max-width: none; /* allow full-bleed backgrounds to exceed 100% */
+  user-select: none;
+}
+
+.fig__text {
+  position: absolute;
+  white-space: pre-line;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- scroll reveals: text transits in from the sides / fades up ---------- */
+.rv {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rv--up { transform: translateY(6cqw); }
+.rv--left { transform: translateX(-11cqw); }
+.rv--right { transform: translateX(11cqw); }
+.rv.is-in { opacity: 1; transform: none; will-change: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .rv { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---- scratch card -------------------------------------------------------- */
+.scratchfig {
+  position: absolute;
+  z-index: 60;
+  border-radius: 2.5cqw;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+.scratchfig:active { cursor: grabbing; }
+.scratchfig__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3cqw;
+  background: #f8ddd6;
+  text-align: center;
+}
+.scratchfig__label {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.6cqw;
+  text-transform: uppercase;
+  font-size: 2.3cqw;
+  color: #b0796c;
+}
+.scratchfig__date {
+  font-family: 'Great Vibes', cursive;
+  font-size: 6.2cqw;
+  color: #a4574f;
+}
+.scratchfig__coat {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease;
+}
+.scratchfig__coat.is-gone { opacity: 0; pointer-events: none; }
+
+/* ---- inline countdown (below "Until Our Forever Begins") ---------------- */
+.cd-inline {
+  position: absolute;
+  z-index: 30;
+  text-align: center;
+}
+.cd-inline .cd { display: flex; justify-content: center; gap: 2cqw; }
+.cd-inline .cd__cell {
+  min-width: 0;
+  width: 15cqw;
+  padding: 1.4cqw 0.5cqw;
+  background: rgba(255, 253, 251, 0.72);
+  border: 1px solid rgba(201, 138, 118, 0.4);
+  border-radius: 2cqw;
+  backdrop-filter: blur(2px);
+}
+.cd-inline .cd__num { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 4.6cqw; line-height: 1; color: #a4574f; font-variant-numeric: tabular-nums; display: block; }
+.cd-inline .cd__label { display: block; margin-top: 0.5cqw; font-family: 'Cormorant Garamond', serif; font-size: 1.5cqw; letter-spacing: 0.25cqw; text-transform: uppercase; color: #9a7d75; }
+.cd-inline .cd__done { font-family: 'Great Vibes', cursive; font-size: 5cqw; color: #a4574f; margin: 0; }
+
+/* ---- RSVP form inside the Figma background ------------------------------- */
+.fig__form {
+  position: absolute;
+  left: 11%;
+  top: 90.35%; /* just below the "SEPTEMBER 30, 2026" heading */
+  width: 78%;
+  z-index: 90; /* above the decorative frame image (z 86) */
+}
+.rff {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7cqw;
+}
+.rff__label {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.35cqw;
+  text-transform: uppercase;
+  font-size: 2.2cqw;
+  color: #a26a5f;
+  margin-top: 0.1cqw;
+}
+.rff__input {
+  width: 100%;
+  padding: 1.35cqw 3cqw;
+  border: 0;
+  border-radius: 100px;
+  background: #ecc6ba;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.3cqw;
+  color: #6b4139;
+  box-shadow: inset 0 0.4cqw 1cqw rgba(150, 90, 80, 0.12);
+}
+.rff__input::placeholder { color: #b98f81; }
+.rff__input:focus { outline: none; background: #f0d0c6; box-shadow: 0 0 0 0.6cqw rgba(201, 138, 118, 0.3); }
+
+.rff__attend { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4cqw; }
+.rff__pill {
+  padding: 1.2cqw 1.2cqw;
+  border: 0;
+  border-radius: 100px;
+  background: #ecc6ba;
+  color: #7a5349;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5cqw;
+  line-height: 1.15;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease, color 0.25s ease;
+}
+.rff__pill:hover { transform: translateY(-0.5cqw); }
+.rff__pill.on { background: linear-gradient(120deg, #c98a76, #a4574f); color: #fff5f1; }
+
+.rff__step {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #ecc6ba; border-radius: 100px; padding: 0.3cqw 1.2cqw;
+}
+.rff__step button {
+  width: 5cqw; height: 5cqw; border: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55); color: #a4574f; font-size: 3.2cqw; line-height: 1; cursor: pointer;
+}
+.rff__step span { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 3.2cqw; color: #7a4a42; }
+
+.rff__eventshead {
+  text-align: center; margin: 0.15cqw 0 0;
+  font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  letter-spacing: 0.2cqw; font-size: 2.1cqw; color: #a26a5f;
+}
+.rff__events { display: flex; flex-direction: column; gap: 0.55cqw; }
+.rff__event {
+  position: relative;
+  border-radius: 3cqw;
+  background: #ecc6ba;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.rff__event:hover { transform: translateY(-0.4cqw); }
+.rff__event.on { box-shadow: inset 0 0 0 0.5cqw #c98a76; background: #f1d3c8; }
+.rff__eventmain {
+  width: 100%;
+  display: flex; align-items: center; gap: 1.3cqw;
+  padding: 0.55cqw 2cqw 1cqw;
+  border: 0; background: transparent; cursor: pointer; text-align: left;
+}
+.rff__eventmain img { width: 5cqw; height: 5cqw; object-fit: contain; flex: none; }
+.rff__eventtext { display: flex; flex-direction: column; gap: 0.05cqw; flex: 1; line-height: 1.1; }
+.rff__eventtext strong { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 2.15cqw; letter-spacing: 0.12cqw; text-transform: uppercase; color: #7a4a42; }
+.rff__eventtext em { font-style: normal; font-family: 'Cormorant Garamond', serif; font-size: 1.85cqw; color: #97756c; }
+.rff__check {
+  width: 3.9cqw; height: 3.9cqw; flex: none; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(255, 255, 255, 0.6); color: #fff; font-size: 2.2cqw;
+}
+.rff__event.on .rff__check { background: #c98a76; }
+.rff__map {
+  position: absolute; right: 2.4cqw; bottom: 0.35cqw;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.7cqw;
+  letter-spacing: 0.1cqw; color: #a4574f; text-decoration: none;
+  border-bottom: 0.3cqw solid rgba(164, 87, 79, 0.4); padding-bottom: 0.05cqw;
+}
+
+.rff__send {
+  margin: 0.15cqw auto 0;
+  width: 58%;
+  padding: 1.1cqw;
+  border: 0; border-radius: 100px;
+  background: linear-gradient(120deg, #c3a49b, #a9857b);
+  color: #fff8f4;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; letter-spacing: 0.4cqw; text-transform: uppercase; font-size: 2.6cqw;
+  cursor: pointer;
+  box-shadow: 0 1.4cqw 3cqw rgba(140, 100, 92, 0.32);
+  transition: transform 0.25s ease;
+}
+.rff__send:hover { transform: translateY(-0.6cqw); }
+.rff__send:disabled { opacity: 0.65; }
+.rff__err { text-align: center; color: #b23b3b; font-family: 'Cormorant Garamond', serif; font-size: 2.8cqw; margin: 1cqw 0 0; }
+.rff__thanks { text-align: center; color: #7a4a42; font-family: 'Cormorant Garamond', serif; }
+.rff__thanks span { font-size: 8cqw; color: #c9736a; }
+.rff__thanks p { font-size: 3.4cqw; }

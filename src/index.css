@@ -15,7 +15,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background: #ecccc6;
+  background: #e0aa9d; /* deeper blush to match Figma tone */
   overflow-x: hidden;
 }
 

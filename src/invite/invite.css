@@ -283,8 +283,39 @@
   height: 100%;
   object-fit: contain;
 }
-.music-btn.is-playing .music-btn__vinyl {
-  animation: vinyl-spin 3.5s linear infinite;
+/* disc stays static — the needle moves instead */
+.music-btn__arm {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  transform-origin: 82% 18%;
+  transform: rotate(-38deg);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.music-btn.is-playing .music-btn__arm {
+  transform: rotate(-4deg);
+}
+.music-btn__needle {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  width: 2px;
+  height: 20px;
+  border-radius: 2px;
+  background: linear-gradient(#6b4a44, #a4574f);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+.music-btn__needle::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c98a76;
 }
 @keyframes vinyl-spin {
   to {

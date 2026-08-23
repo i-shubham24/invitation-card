@@ -2,152 +2,126 @@ import { useEffect, useRef } from 'react'
 import './petals.css'
 
 /**
- * Petals — gentle falling flowers + leaves, with a burst on click/tap.
- *
- * One canvas, one rAF loop. Flowers are drawn from a small PNG token; leaves
- * are drawn as vector paths. Performance-guarded: DPR capped at 2, hard cap on
- * particle count, delta-time physics, parks itself when the tab is hidden, and
- * disabled entirely under prefers-reduced-motion.
+ * Petals — small, simple blossom petals drifting down. No click/touch burst.
+ * One canvas, one rAF loop, delta-time physics, parks when hidden, off for
+ * reduced-motion. Petals are tiny drawn shapes (not big flower images).
  */
-const MAX = 90
+const MAX = 120
 const rand = (a, b) => a + Math.random() * (b - a)
+const COLORS = ['#f6c9c0', '#f3b7ae', '#efd0c9', '#e9b7ac', '#f7dcd6']
 
 export default function Petals() {
   const ref = useRef(null)
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
     const canvas = ref.current
     const ctx = canvas.getContext('2d')
-    const flower = new Image()
-    flower.src = '/decor/petal.png'
-
-    let W = 0, H = 0, dpr = 1
-    let raf = 0, last = performance.now(), spawnT = 0, running = true
+    let W = 0, H = 0, dpr = 1, raf = 0, last = performance.now(), spawnT = 0, running = true
     const parts = []
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2)
-      W = window.innerWidth
-      H = window.innerHeight
-      canvas.width = W * dpr
-      canvas.height = H * dpr
-      canvas.style.width = W + 'px'
-      canvas.style.height = H + 'px'
+      W = innerWidth; H = innerHeight
+      canvas.width = W * dpr; canvas.height = H * dpr
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px'
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
     }
-
     function make(o = {}) {
       if (parts.length >= MAX) parts.shift()
-      const kind = o.kind ?? (Math.random() < 0.62 ? 'flower' : 'leaf')
       parts.push({
-        kind,
-        x: o.x ?? rand(-20, W + 20),
-        y: o.y ?? rand(-40, -10),
-        vx: o.vx ?? rand(-16, 16),
-        vy: o.vy ?? rand(24, 52),
-        r: o.r ?? (kind === 'leaf' ? rand(7, 12) : rand(10, 20)),
+        x: o.x ?? rand(-10, W + 10),
+        y: o.y ?? rand(-30, -6),
+        vx: rand(-10, 10),
+        vy: rand(16, 34),
+        r: rand(3.5, 7.5),           // small
         rot: rand(0, Math.PI * 2),
-        vrot: rand(-1.3, 1.3),
-        sway: rand(0.6, 1.5),
+        vrot: rand(-1, 1),
+        sway: rand(0.5, 1.3),
         phase: rand(0, Math.PI * 2),
-        alpha: o.alpha ?? rand(0.75, 1),
-        life: o.life ?? Infinity,
-        age: 0,
-        grav: o.grav ?? 0,
-        drag: o.drag,
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        alpha: rand(0.5, 0.85),
       })
     }
-
-    function leaf(p) {
+    function petal(p) {
+      // simple teardrop petal
       ctx.beginPath()
       ctx.moveTo(0, -p.r)
-      ctx.quadraticCurveTo(p.r * 0.9, 0, 0, p.r)
-      ctx.quadraticCurveTo(-p.r * 0.9, 0, 0, -p.r)
-      ctx.fillStyle = '#8ab06a'
+      ctx.quadraticCurveTo(p.r, 0, 0, p.r)
+      ctx.quadraticCurveTo(-p.r, 0, 0, -p.r)
+      ctx.fillStyle = p.color
       ctx.fill()
-      ctx.beginPath()
-      ctx.moveTo(0, -p.r); ctx.lineTo(0, p.r)
-      ctx.strokeStyle = 'rgba(90,120,70,0.6)'; ctx.lineWidth = 0.8; ctx.stroke()
     }
-
-    function burst(x, y) {
-      for (let i = 0; i < 16; i++) {
-        const a = (Math.PI * 2 * i) / 16 + rand(-0.2, 0.2)
-        const s = rand(90, 240)
-        make({
-          x, y,
-          vx: Math.cos(a) * s,
-          vy: Math.sin(a) * s - 40,
-          r: rand(9, 18),
-          life: rand(1, 1.7),
-          grav: rand(240, 380),
-          drag: 0.9,
-        })
-      }
-    }
-
     function frame(now) {
       raf = requestAnimationFrame(frame)
       if (!running) return
-      const dt = Math.min((now - last) / 1000, 0.05)
-      last = now
-
-      const target = W < 640 ? 16 : W < 1100 ? 24 : 32
-      const ambient = parts.reduce((n, p) => (p.life === Infinity ? n + 1 : n), 0)
+      const dt = Math.min((now - last) / 1000, 0.05); last = now
+      // Denser on mobile (the content fills the screen there).
+      const target = W < 640 ? 52 : W < 1100 ? 48 : 60
       spawnT -= dt
-      if (ambient < target && spawnT <= 0) { make(); spawnT = 0.32 }
-
+      if (parts.length < target && spawnT <= 0) { make(); spawnT = 0.1 }
       ctx.clearRect(0, 0, W, H)
       for (let i = parts.length - 1; i >= 0; i--) {
         const p = parts[i]
-        p.age += dt
-        if (p.grav) p.vy += p.grav * dt
-        if (p.drag) { const d = Math.pow(p.drag, dt * 60); p.vx *= d; p.vy *= d }
         p.phase += p.sway * dt * 2
-        p.x += (p.vx + Math.sin(p.phase) * 22) * dt
+        p.x += (p.vx + Math.sin(p.phase) * 16) * dt
         p.y += p.vy * dt
         p.rot += p.vrot * dt
-
-        let a = p.alpha
-        if (p.life !== Infinity) {
-          if (p.age >= p.life) { parts.splice(i, 1); continue }
-          a = p.alpha * (1 - p.age / p.life)
-        } else if (p.y > H + 50) { p.y = rand(-50, -10); p.x = rand(-20, W + 20); continue }
-
+        if (p.y > H + 30) { parts.splice(i, 1); continue }
         ctx.save()
-        ctx.globalAlpha = Math.max(0, Math.min(1, a))
+        ctx.globalAlpha = p.alpha
         ctx.translate(p.x, p.y)
         ctx.rotate(p.rot)
-        if (p.kind === 'flower' && flower.complete && flower.naturalWidth) {
-          ctx.drawImage(flower, -p.r, -p.r, p.r * 2, p.r * 2)
-        } else {
-          leaf(p)
-        }
+        petal(p)
         ctx.restore()
       }
+      for (const b of flutter) { stepButterfly(b, dt); drawButterfly(b) }
+    }
+    // A couple of butterflies that flutter across the site.
+    const flutter = [
+      { x: W * 0.2, y: H * 0.4, vx: 26, vy: -8, phase: 0, flap: 0, size: 14, hue: '#e7a6c4' },
+      { x: W * 0.7, y: H * 0.65, vx: -22, vy: 6, phase: 2, flap: 1, size: 12, hue: '#a9b6e0' },
+    ]
+    function drawButterfly(b) {
+      const wing = Math.abs(Math.cos(b.flap)) * b.size + b.size * 0.25
+      ctx.save()
+      ctx.translate(b.x, b.y)
+      ctx.rotate(Math.atan2(b.vy, b.vx))
+      ctx.globalAlpha = 0.82
+      for (const s of [-1, 1]) {
+        ctx.beginPath()
+        ctx.ellipse(s * b.size * 0.5, -b.size * 0.3, wing * 0.55, b.size * 0.7, s * 0.5, 0, Math.PI * 2)
+        ctx.fillStyle = b.hue
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(s * b.size * 0.45, b.size * 0.4, wing * 0.4, b.size * 0.5, s * -0.4, 0, Math.PI * 2)
+        ctx.fillStyle = b.hue
+        ctx.fill()
+      }
+      ctx.fillStyle = '#6b4a44'
+      ctx.fillRect(-1, -b.size * 0.7, 2, b.size * 1.4)
+      ctx.restore()
+    }
+    function stepButterfly(b, dt) {
+      b.flap += dt * 12
+      b.phase += dt
+      b.x += b.vx * dt
+      b.y += (b.vy + Math.sin(b.phase) * 14) * dt
+      if (b.x < -30) b.x = W + 30
+      if (b.x > W + 30) b.x = -30
+      if (b.y < -30) b.y = H + 30
+      if (b.y > H + 30) b.y = -30
     }
 
-    function onPointer(e) {
-      if (e.clientX == null) return
-      // ignore clicks on real controls so we don't spawn over buttons/inputs
-      const t = e.target
-      if (t && t.closest && t.closest('button, input, a, .scratch, .rsvp-card')) return
-      burst(e.clientX, e.clientY)
-    }
     function onVis() { running = !document.hidden; last = performance.now() }
-
     resize()
-    for (let i = 0; i < 8; i++) make({ y: rand(0, H) })
+    for (let i = 0; i < 28; i++) make({ y: rand(0, H) })
     window.addEventListener('resize', resize)
-    window.addEventListener('pointerdown', onPointer, { passive: true })
     document.addEventListener('visibilitychange', onVis)
     raf = requestAnimationFrame(frame)
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
-      window.removeEventListener('pointerdown', onPointer)
       document.removeEventListener('visibilitychange', onVis)
     }
   }, [])

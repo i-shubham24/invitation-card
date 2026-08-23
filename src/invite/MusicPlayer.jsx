@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * MusicPlayer — a small spinning vinyl toggle, echoing the record motif in the
- * artwork's footer. Starts on the first user gesture (autoplay-safe) after the
- * card is opened. Drop your own track at /public/media/music.mp3 to replace it.
+ * MusicPlayer — static vinyl disc with a tonearm/needle that swings onto the
+ * record while playing (the disc itself does not spin). Drop your song at
+ * /public/media/music.mp3.
  */
 export default function MusicPlayer() {
   const audioRef = useRef(null)
@@ -46,6 +46,10 @@ export default function MusicPlayer() {
         aria-hidden="true"
         draggable="false"
       />
+      {/* tonearm / needle — swings onto the disc when playing */}
+      <span className="music-btn__arm" aria-hidden="true">
+        <span className="music-btn__needle" />
+      </span>
     </button>
   )
 }

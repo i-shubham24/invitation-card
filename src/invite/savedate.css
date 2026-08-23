@@ -66,6 +66,14 @@
 }
 .sd__rule::after { background: linear-gradient(90deg, #d2a08f, transparent); }
 
+.sd__until {
+  margin: 0 0 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 4.4vw, 1.25rem);
+  color: #9a6b62;
+}
+
 /* countdown */
 .cd {
   display: flex;

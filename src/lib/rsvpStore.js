@@ -64,6 +64,17 @@ export async function submitRsvp(entry) {
   return saved
 }
 
+/** Fetch every RSVP (newest first) — used by the admin portal. */
+export async function fetchAllRsvps() {
+  if (!isRemote) {
+    return readLocal()
+  }
+  const query = `select=*&order=created_at.desc`
+  const res = await fetch(`${URL_BASE}/rest/v1/${TABLE}?${query}`, { headers: headers() })
+  if (!res.ok) throw new Error(`Could not load responses (${res.status})`)
+  return res.json()
+}
+
 /** Fetch the public wishes wall — entries that left a message. */
 export async function fetchWishes(limit = 24) {
   if (!isRemote) {

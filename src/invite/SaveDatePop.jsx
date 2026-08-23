@@ -33,6 +33,7 @@ export default function SaveDatePop({ onClose }) {
         <div className="sd__rule" aria-hidden>
           <span>❤</span>
         </div>
+        <p className="sd__until">Until Our Forever Begins</p>
         <Countdown />
         <button type="button" className="sd__btn" onClick={onClose}>
           Continue &darr;

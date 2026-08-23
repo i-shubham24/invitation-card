@@ -60,12 +60,12 @@ export const RSVP = {
   send: { left: 36.5, top: 95.02, width: 27, height: 0.72 },
 }
 
-// Event metadata used by the RSVP payload (labels already shown in artwork).
+// Event metadata for the RSVP form. `venue` is shown; `map` opens Google Maps.
 export const EVENTS = [
-  { id: 'shagun', name: 'Shagun', venue: 'Blessings Resort, Rayya' },
-  { id: 'jaago', name: 'Jaago', venue: 'Green Tulip, Amritsar' },
-  { id: 'anand', name: 'Anand Karaj', venue: 'Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar' },
-  { id: 'reception', name: 'Reception', venue: 'Maribella Resort, Amritsar' },
+  { id: 'shagun', name: 'Shagun', venue: 'At Blessings Resort, Rayya', map: 'Blessings Resort, Rayya' },
+  { id: 'jaago', name: 'Jaago', venue: 'At Green Tulip, Amritsar', map: 'Green Tulip, Amritsar' },
+  { id: 'anand', name: 'Anand Karaj', venue: 'At Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar', map: 'Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar' },
+  { id: 'reception', name: 'Wedding reception', venue: 'At Maribella Resort, Amritsar', map: 'Maribella Resort, Amritsar' },
 ]
 
 export const COUPLE = 'Akashdeep Singh Sehdev & Harmandip Kaur'
