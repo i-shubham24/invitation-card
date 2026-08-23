@@ -19,10 +19,11 @@
   width: 82%;
   height: 5.6%;
   z-index: 50;
-  background: rgba(255, 248, 244, 0.5);
+  /* deeper, more opaque backing so the form reads clearly over the artwork */
+  background: rgba(240, 214, 204, 0.82);
   border-radius: 5cqw;
-  box-shadow: 0 1cqw 3cqw rgba(150, 90, 80, 0.12);
-  backdrop-filter: blur(1px);
+  box-shadow: 0 1cqw 3cqw rgba(150, 90, 80, 0.18);
+  backdrop-filter: blur(1.5px);
 }
 
 .fig__img {
@@ -186,37 +187,48 @@
   font-family: 'Cormorant Garamond', serif; font-weight: 600;
   letter-spacing: 0.2cqw; font-size: 2.1cqw; color: #a26a5f;
 }
-.rff__events { display: flex; flex-direction: column; gap: 0.55cqw; }
+.rff__events { display: flex; flex-direction: column; gap: 0.6cqw; }
 .rff__event {
-  position: relative;
+  display: flex; align-items: center; gap: 1.2cqw;
+  padding: 0.85cqw 1.8cqw;
   border-radius: 3cqw;
   background: #ecc6ba;
-  overflow: hidden;
   transition: box-shadow 0.2s ease, background-color 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .rff__event:hover { transform: translateY(-0.4cqw); }
 .rff__event.on { box-shadow: inset 0 0 0 0.5cqw #c98a76; background: #f1d3c8; }
 .rff__eventmain {
-  width: 100%;
-  display: flex; align-items: center; gap: 1.3cqw;
-  padding: 0.55cqw 2cqw 1cqw;
-  border: 0; background: transparent; cursor: pointer; text-align: left;
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 1.2cqw;
+  padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left;
 }
-.rff__eventmain img { width: 5cqw; height: 5cqw; object-fit: contain; flex: none; }
-.rff__eventtext { display: flex; flex-direction: column; gap: 0.05cqw; flex: 1; line-height: 1.1; }
+.rff__eventmain img { width: 5.5cqw; height: 5.5cqw; object-fit: contain; flex: none; }
+.rff__eventtext { display: flex; flex-direction: column; gap: 0.05cqw; flex: 1; min-width: 0; line-height: 1.1; }
 .rff__eventtext strong { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 2.15cqw; letter-spacing: 0.12cqw; text-transform: uppercase; color: #7a4a42; }
-.rff__eventtext em { font-style: normal; font-family: 'Cormorant Garamond', serif; font-size: 1.85cqw; color: #97756c; }
+.rff__eventtext em {
+  font-style: normal; font-family: 'Cormorant Garamond', serif; font-size: 1.85cqw; color: #97756c;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+/* Map/directions button — sits just left of the checkbox for easy tapping */
+.rff__map {
+  flex: none;
+  display: inline-flex; align-items: center; gap: 0.4cqw;
+  padding: 0.9cqw 1.6cqw;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #a4574f; font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  font-size: 1.9cqw; letter-spacing: 0.05cqw; text-decoration: none; white-space: nowrap;
+  box-shadow: 0 0.3cqw 0.8cqw rgba(150, 90, 80, 0.16);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.rff__map:hover { background: #fff; transform: translateY(-0.3cqw); }
 .rff__check {
-  width: 3.9cqw; height: 3.9cqw; flex: none; display: grid; place-items: center;
-  border-radius: 50%; background: rgba(255, 255, 255, 0.6); color: #fff; font-size: 2.2cqw;
+  flex: none;
+  width: 5.2cqw; height: 5.2cqw; display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.65); color: #fff;
+  font-size: 2.7cqw; cursor: pointer; transition: background-color 0.2s ease;
 }
 .rff__event.on .rff__check { background: #c98a76; }
-.rff__map {
-  position: absolute; right: 2.4cqw; bottom: 0.35cqw;
-  font-family: 'Cormorant Garamond', serif; font-size: 1.7cqw;
-  letter-spacing: 0.1cqw; color: #a4574f; text-decoration: none;
-  border-bottom: 0.3cqw solid rgba(164, 87, 79, 0.4); padding-bottom: 0.05cqw;
-}
 
 .rff__send {
   margin: 0.15cqw auto 0;
