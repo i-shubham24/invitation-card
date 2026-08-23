@@ -63,19 +63,33 @@ export default function confetti(x, y) {
 
   const rand = (a, b) => a + Math.random() * (b - a)
   const parts = []
-  const N = 200
-  for (let i = 0; i < N; i++) {
-    const a = rand(-Math.PI * 1.02, Math.PI * 0.02) // wide fan, nearly full upper arc
-    const sp = rand(380, 900)                        // faster => spreads further
-    parts.push({
-      x, y,
-      vx: Math.cos(a) * sp + rand(-110, 110),
-      vy: Math.sin(a) * sp,
-      w: rand(6, 11), h: rand(8, 15),
-      rot: rand(0, Math.PI * 2), vrot: rand(-10, 10),
-      color: COLORS[(Math.random() * COLORS.length) | 0],
-      flip: rand(0, Math.PI * 2), vflip: rand(6, 12),
-    })
+
+  // Two "cannons" at the bottom-left and bottom-right corners, both firing a
+  // stream of colourful sprinkles up toward the scratch text (x, y).
+  // Two cannons at the bottom corners fire a strong, wide fan up and toward the
+  // upper centre, so the sprinkles spread across most of the page for a moment.
+  const cannons = [
+    { x: W * 0.02, y: H * 1.0 },
+    { x: W * 0.98, y: H * 1.0 },
+  ]
+  const aimX = W * 0.5, aimY = H * 0.1
+  const per = 165
+  for (const c of cannons) {
+    const base = Math.atan2(aimY - c.y, aimX - c.x)
+    const reach = Math.hypot(aimX - c.x, aimY - c.y)
+    for (let i = 0; i < per; i++) {
+      const a = base + rand(-0.62, 0.62)         // wide fan toward both sides
+      const sp = rand(reach * 1.7, reach * 3.0)  // fired strongly
+      const round = Math.random() < 0.4
+      parts.push({
+        x: c.x, y: c.y,
+        vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+        w: rand(6, 12), h: rand(8, 16), round,
+        rot: rand(0, Math.PI * 2), vrot: rand(-10, 10),
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        flip: rand(0, Math.PI * 2), vflip: rand(6, 12),
+      })
+    }
   }
 
   let last = performance.now()
@@ -85,22 +99,29 @@ export default function confetti(x, y) {
     const life = (now - t0) / 1000
     ctx.clearRect(0, 0, W, H)
     for (const p of parts) {
-      p.vy += 900 * dt          // gravity
-      p.vx *= Math.pow(0.9, dt * 60)
+      p.vy += 560 * dt          // gentler gravity => travels further
+      const drag = Math.pow(0.965, dt * 60)
+      p.vx *= drag; p.vy *= drag
       p.x += p.vx * dt
       p.y += p.vy * dt
       p.rot += p.vrot * dt
       p.flip += p.vflip * dt
       ctx.save()
-      ctx.globalAlpha = Math.max(0, 1 - life / 2.6)
+      ctx.globalAlpha = Math.max(0, 1 - life / 3.2)
       ctx.translate(p.x, p.y)
-      ctx.rotate(p.rot)
-      ctx.scale(1, Math.cos(p.flip))   // fluttering
       ctx.fillStyle = p.color
-      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h)
+      if (p.round) {
+        ctx.beginPath()
+        ctx.arc(0, 0, p.w * 0.4, 0, Math.PI * 2)
+        ctx.fill()
+      } else {
+        ctx.rotate(p.rot)
+        ctx.scale(1, Math.cos(p.flip))   // fluttering
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h)
+      }
       ctx.restore()
     }
-    if (life < 2.8) requestAnimationFrame(frame)
+    if (life < 3.4) requestAnimationFrame(frame)
     else canvas.remove()
   }
   requestAnimationFrame(frame)

@@ -8,6 +8,8 @@
   display: grid;
   place-items: center;
   overflow: hidden;
+  touch-action: none;          /* no scroll/zoom gestures over the opening page */
+  overscroll-behavior: none;
   background:
     radial-gradient(120% 90% at 50% 18%, #fdf3f0 0%, #f3ddd7 52%, #ecc7bb 82%, #e3b3a8 100%);
   transition: opacity 0.8s ease, visibility 0.8s ease;

@@ -14,10 +14,17 @@ function Confirmation({ attending }) {
     <div className="rff__thanks">
       <span>❤</span>
       {attending ? (
-        <p>
-          Yay! We&rsquo;ll be waiting for you to celebrate with us.
-          <br />See you there!
-        </p>
+        <>
+          <p>Yay! We&rsquo;ll be waiting for you to celebrate with us. See you there!</p>
+          <div className="rff__contact">
+            <p className="rff__contact-line">
+              Sehdev and Singh family will be waiting for your presence.
+            </p>
+            <p className="rff__contact-head">Contact details</p>
+            <p>Mohit Sehdev: <a href="tel:+918194963318">+91 81949 63318</a></p>
+            <p>Mr Kuldip Singh: <a href="tel:+19029991999">+1 902 999 1999</a></p>
+          </div>
+        </>
       ) : (
         <p>
           We&rsquo;ll miss you — but we&rsquo;ll be celebrating you from afar.

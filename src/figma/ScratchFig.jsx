@@ -14,6 +14,7 @@ export default function ScratchFig({ rect, date = '3 December, 2026' }) {
   const canvasRef = useRef(null)
   const [revealed, setRevealed] = useState(false)
   const scratching = useRef(false)
+  const hasScratched = useRef(false) // once true, never repaint (would wipe scratches)
 
   // paint the coating
   useEffect(() => {
@@ -26,21 +27,46 @@ export default function ScratchFig({ rect, date = '3 December, 2026' }) {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
       canvas.width = r.width * dpr; canvas.height = r.height * dpr
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      // rose / blush foil (our main colours)
       const g = ctx.createLinearGradient(0, 0, r.width, r.height)
-      g.addColorStop(0, '#f0c9c2'); g.addColorStop(1, '#e7b3aa')
+      g.addColorStop(0, '#f6dad2'); g.addColorStop(0.42, '#e2ab9f')
+      g.addColorStop(0.5, '#f0cbc2'); g.addColorStop(0.58, '#dda294'); g.addColorStop(1, '#d0917f')
       ctx.fillStyle = g; ctx.fillRect(0, 0, r.width, r.height)
-      ctx.fillStyle = 'rgba(150,95,85,0.7)'
+      // diagonal sheen
+      const sh = ctx.createLinearGradient(0, 0, r.width, r.height)
+      sh.addColorStop(0, 'rgba(255,255,255,0)'); sh.addColorStop(0.5, 'rgba(255,255,255,0.42)'); sh.addColorStop(1, 'rgba(255,255,255,0)')
+      ctx.fillStyle = sh; ctx.fillRect(0, 0, r.width, r.height)
+      // paper-like speckle texture
+      const specks = Math.floor((r.width * r.height) / 45)
+      for (let i = 0; i < specks; i++) {
+        ctx.fillStyle = Math.random() < 0.5 ? 'rgba(255,255,255,0.14)' : 'rgba(140,80,70,0.10)'
+        ctx.fillRect(Math.random() * r.width, Math.random() * r.height, 1.3, 1.3)
+      }
+      // premium label, auto-sized to fit the width
+      const label = '✦ SCRATCH TO REVEAL ✦'
+      ctx.fillStyle = '#7a3f38'
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-      ctx.font = `600 ${Math.round(r.height * 0.3)}px "Cormorant Garamond", serif`
-      ctx.fillText('SCRATCH HERE', r.width / 2, r.height / 2)
+      try { ctx.letterSpacing = `${Math.max(1, r.height * 0.03)}px` } catch { /* older browsers */ }
+      let fs = Math.round(r.height * 0.42)
+      ctx.font = `700 ${fs}px "Cinzel", "Cormorant Garamond", serif`
+      while (ctx.measureText(label).width > r.width * 0.84 && fs > 8) {
+        fs -= 1
+        ctx.font = `700 ${fs}px "Cinzel", "Cormorant Garamond", serif`
+      }
+      ctx.fillText(label, r.width / 2, r.height / 2)
     }
     paint()
-    const ro = new ResizeObserver(() => { if (!revealed) paint() })
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => { if (!revealed && !hasScratched.current) paint() })
+    }
+    const ro = new ResizeObserver(() => { if (!revealed && !hasScratched.current) paint() })
     ro.observe(wrap)
     return () => ro.disconnect()
   }, [revealed])
 
   function scratchAt(cx, cy) {
+    hasScratched.current = true
     const canvas = canvasRef.current, ctx = canvas.getContext('2d')
     const r = canvas.getBoundingClientRect()
     ctx.globalCompositeOperation = 'destination-out'
@@ -62,10 +88,20 @@ export default function ScratchFig({ rect, date = '3 December, 2026' }) {
     const r = wrapRef.current.getBoundingClientRect()
     confetti(r.left + r.width / 2, r.top + r.height / 2)
   }
-  const pt = (e) => (e.touches ? e.touches[0] : e)
-  function down(e) { if (revealed) return; scratching.current = true; const p = pt(e); scratchAt(p.clientX, p.clientY) }
-  function move(e) { if (!scratching.current || revealed) return; const p = pt(e); scratchAt(p.clientX, p.clientY) }
-  function up() { if (!scratching.current || revealed) return; scratching.current = false; if (cleared() > 0.5) done() }
+  const moves = useRef(0)
+  function down(e) {
+    if (revealed) return
+    scratching.current = true
+    try { e.currentTarget.setPointerCapture?.(e.pointerId) } catch { /* noop */ }
+    scratchAt(e.clientX, e.clientY)
+  }
+  function move(e) {
+    if (!scratching.current || revealed) return
+    scratchAt(e.clientX, e.clientY)
+    // fire + reveal automatically once ~65% is scratched (throttled check)
+    if (++moves.current % 6 === 0 && cleared() > 0.65) done()
+  }
+  function up() { if (!scratching.current || revealed) return; scratching.current = false; if (cleared() > 0.65) done() }
 
   return (
     <>
@@ -81,8 +117,7 @@ export default function ScratchFig({ rect, date = '3 December, 2026' }) {
         <canvas
           ref={canvasRef}
           className={`scratchfig__coat ${revealed ? 'is-gone' : ''}`}
-          onMouseDown={down} onMouseMove={move} onMouseUp={up} onMouseLeave={up}
-          onTouchStart={down} onTouchMove={move} onTouchEnd={up}
+          onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}
         />
       </div>
     </>

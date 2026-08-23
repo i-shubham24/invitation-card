@@ -15,7 +15,8 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background: #e9c0b3; /* blush base — lightened for readability */
+  /* soft pink/blue/purple field behind the card (visible beside it on desktop) */
+  background: linear-gradient(160deg, #f4d7e2 0%, #dfe2f2 40%, #e7dcf0 70%, #f0cdd6 100%);
   overflow-x: hidden;
 }
 

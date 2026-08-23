@@ -23,7 +23,7 @@ export default function App() {
 
   return (
     <>
-      <InvitationCard />
+      <InvitationCard opened={opened} />
       {!opened && <EnvelopeIntro onOpened={() => setOpened(true)} />}
     </>
   )

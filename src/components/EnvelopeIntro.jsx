@@ -14,6 +14,21 @@ export default function EnvelopeIntro({ onOpened }) {
   const [phase, setPhase] = useState('idle') // idle | opening | done
   const videoRef = useRef(null)
 
+  // Strict opening page: lock all scrolling of the site behind the envelope
+  // until it's opened (nothing but the heart tap should do anything).
+  useEffect(() => {
+    const html = document.documentElement
+    const body = document.body
+    const prevH = html.style.overflow
+    const prevB = body.style.overflow
+    html.style.overflow = 'hidden'
+    body.style.overflow = 'hidden'
+    return () => {
+      html.style.overflow = prevH
+      body.style.overflow = prevB
+    }
+  }, [])
+
   function finish() {
     setPhase((p) => (p === 'done' ? p : 'done'))
     window.setTimeout(() => onOpened?.(), 800)

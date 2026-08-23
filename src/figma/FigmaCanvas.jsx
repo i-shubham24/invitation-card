@@ -18,6 +18,19 @@ const SKIP = new Set([
 ])
 const GOLD = '#c9a24a'
 
+// Text that lives outside frame 10 in Figma but belongs on the canvas.
+const EXTRA = [
+  {
+    id: 'extra-celeb', kind: 'text', z: 210,
+    x: 20.56, y: 44.73, w: 64.25, h: 0.21,
+    text: 'A CELEBRATION OF LOVE, FAITH & FOREVER',
+    font: 'Cinzel', size: 10, weight: 700, spacing: 1.2, align: 'CENTER', color: '#8b6e38',
+  },
+]
+
+// Footer texts: shown statically (no scroll reveal — they were firing too late).
+const NO_REVEAL = new Set(['406:16', '406:17', '406:18', '406:19'])
+
 function variantFor(it) {
   const center = it.x + it.w / 2
   if (it.align === 'CENTER' || (it.size || 0) >= 28) return 'up'
@@ -45,8 +58,9 @@ function Item({ it }) {
   }
 
   if (it.kind === 'text') {
+    const reveal = !NO_REVEAL.has(it.id)
     return (
-      <div className={`fig__text rv rv--${variantFor(it)}`}
+      <div className={reveal ? `fig__text rv rv--${variantFor(it)}` : 'fig__text'}
         style={{
           left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, zIndex: it.z,
           fontFamily: `'${it.font}', 'Cormorant Garamond', serif`,
@@ -85,9 +99,11 @@ function Item({ it }) {
   )
 }
 
-/** Robust scroll-based reveal (IntersectionObserver proved unreliable). */
-function useScrollReveal() {
+/** Robust scroll-based reveal (IntersectionObserver proved unreliable).
+ *  Only starts once the site is opened, so the first-page text animates in. */
+function useScrollReveal(active) {
   useEffect(() => {
+    if (!active) return
     const root = document.querySelector('.fig')
     if (!root) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -95,7 +111,8 @@ function useScrollReveal() {
       const vh = window.innerHeight
       root.querySelectorAll('.rv:not(.is-in)').forEach((el) => {
         const r = el.getBoundingClientRect()
-        if (reduced || (r.top < vh * 0.9 && r.bottom > vh * 0.02)) el.classList.add('is-in')
+        // Reveal as the element rises to about mid-screen (feels deliberate + quicker)
+        if (reduced || (r.top < vh * 0.68 && r.bottom > vh * 0.05)) el.classList.add('is-in')
       })
     }
     reveal()
@@ -115,21 +132,21 @@ function useScrollReveal() {
       window.removeEventListener('resize', onScroll)
       clearInterval(iv); clearTimeout(stop)
     }
-  }, [])
+  }, [active])
 }
 
-export default function FigmaCanvas({ onRsvpSaved }) {
-  useScrollReveal()
+export default function FigmaCanvas({ onRsvpSaved, opened }) {
+  useScrollReveal(opened)
   const scratch = ITEMS.find((i) => i.id === '234:236')
   const cdBox = ITEMS.find((i) => i.id === '197:54')
 
   return (
     <div className="fig" style={{ aspectRatio: `${CANVAS.w} / ${CANVAS.h}` }}>
-      {ITEMS.filter((it) => !SKIP.has(it.id)).map((it) => (
+      {[...ITEMS.filter((it) => !SKIP.has(it.id)), ...EXTRA].map((it) => (
         <Item key={it.id} it={it} />
       ))}
 
-      {scratch && <ScratchFig rect={{ x: scratch.x, y: scratch.y, w: scratch.w, h: scratch.h }} />}
+      {scratch && <ScratchFig rect={{ x: 24, y: 5.45, w: 52, h: 1.5 }} />}
 
       {/* Inline countdown, in the empty space below "Until Our Forever Begins" */}
       {cdBox && (

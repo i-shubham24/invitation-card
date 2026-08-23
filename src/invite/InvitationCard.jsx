@@ -7,10 +7,10 @@ import Petals from '../effects/Petals'
  * (real text + exported assets), with the scratch card, the RSVP form inside
  * the Figma RSVP background, falling petals, and the music button.
  */
-export default function InvitationCard({ onRsvpSaved }) {
+export default function InvitationCard({ onRsvpSaved, opened }) {
   return (
     <div className="invite">
-      <FigmaCanvas onRsvpSaved={onRsvpSaved} />
+      <FigmaCanvas onRsvpSaved={onRsvpSaved} opened={opened} />
       <Petals />
       <MusicPlayer />
     </div>

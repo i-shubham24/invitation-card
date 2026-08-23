@@ -39,23 +39,6 @@
   vertical-align: top;
 }
 
-/* Scroll pop-in for the artwork slices + cards */
-.rv {
-  opacity: 0;
-  will-change: transform, opacity;
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.rv--up { transform: translate3d(0, 26px, 0); }
-.rv--zoom { transform: scale(0.94); }
-.rv--left { transform: translate3d(-32px, 0, 0); }
-.rv--right { transform: translate3d(32px, 0, 0); }
-.rv.is-in { opacity: 1; transform: none; will-change: auto; }
-
-@media (prefers-reduced-motion: reduce) {
-  .rv { opacity: 1; transform: none; transition: none; }
-}
 
 /* --- Scratch card -------------------------------------------------------- */
 .scratch {
