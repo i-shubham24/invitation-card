@@ -108,7 +108,7 @@ export default function Petals() {
       raf = requestAnimationFrame(frame)
       if (!running) return
       const dt = Math.min((now - last) / 1000, 0.05); last = now
-      const target = W < 640 ? 42 : W < 1100 ? 44 : 55   // +30% quantity
+      const target = W < 640 ? 34 : W < 1100 ? 35 : 44   // floating count (−20%)
       spawnT -= dt
       if (parts.reduce((n, p) => (p.life === Infinity ? n + 1 : n), 0) < target && spawnT <= 0) {
         make(); spawnT = 0.12
