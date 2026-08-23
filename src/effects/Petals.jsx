@@ -56,10 +56,9 @@ export default function Petals() {
       raf = requestAnimationFrame(frame)
       if (!running) return
       const dt = Math.min((now - last) / 1000, 0.05); last = now
-      // Denser on mobile (the content fills the screen there).
-      const target = W < 640 ? 52 : W < 1100 ? 48 : 60
+      const target = W < 640 ? 32 : W < 1100 ? 34 : 42
       spawnT -= dt
-      if (parts.length < target && spawnT <= 0) { make(); spawnT = 0.1 }
+      if (parts.length < target && spawnT <= 0) { make(); spawnT = 0.16 }
       ctx.clearRect(0, 0, W, H)
       for (let i = parts.length - 1; i >= 0; i--) {
         const p = parts[i]
@@ -115,7 +114,7 @@ export default function Petals() {
 
     function onVis() { running = !document.hidden; last = performance.now() }
     resize()
-    for (let i = 0; i < 28; i++) make({ y: rand(0, H) })
+    for (let i = 0; i < 16; i++) make({ y: rand(0, H) })
     window.addEventListener('resize', resize)
     document.addEventListener('visibilitychange', onVis)
     raf = requestAnimationFrame(frame)

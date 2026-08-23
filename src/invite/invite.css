@@ -297,6 +297,33 @@
 .music-btn.is-playing .music-btn__arm {
   transform: rotate(-4deg);
 }
+
+/* Audiomack player panel — mounted always, expands above the button */
+.music-embed {
+  position: fixed;
+  right: 16px;
+  bottom: 84px;
+  z-index: 71;
+  width: min(320px, 88vw);
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 14px;
+  box-shadow: 0 14px 34px rgba(120, 70, 60, 0.32);
+  transition: height 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+.music-embed.is-open {
+  height: 256px;
+  opacity: 1;
+  pointer-events: auto;
+}
+.music-embed iframe {
+  display: block;
+  width: 100%;
+  height: 252px;
+  border: 0;
+}
 .music-btn__needle {
   position: absolute;
   top: 2px;

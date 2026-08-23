@@ -1,55 +1,47 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
 /**
- * MusicPlayer — static vinyl disc with a tonearm/needle that swings onto the
- * record while playing (the disc itself does not spin). Drop your song at
- * /public/media/music.mp3.
+ * MusicPlayer — a static vinyl button (needle swings on when open) that toggles
+ * a compact Audiomack player for "Jogi" (Arijit Singh). The player iframe stays
+ * mounted so playback continues when the panel is collapsed; press play inside
+ * the embed to start (browsers block autoplay until you interact).
  */
 export default function MusicPlayer() {
-  const audioRef = useRef(null)
-  const [playing, setPlaying] = useState(false)
-
-  useEffect(() => {
-    const audio = new Audio('/media/music.mp3')
-    audio.loop = true
-    audio.volume = 0.5
-    audioRef.current = audio
-    return () => {
-      audio.pause()
-      audioRef.current = null
-    }
-  }, [])
-
-  function toggle() {
-    const audio = audioRef.current
-    if (!audio) return
-    if (playing) {
-      audio.pause()
-      setPlaying(false)
-    } else {
-      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false))
-    }
-  }
+  const [open, setOpen] = useState(false)
 
   return (
-    <button
-      type="button"
-      className={`music-btn ${playing ? 'is-playing' : ''}`}
-      onClick={toggle}
-      aria-label={playing ? 'Pause music' : 'Play music'}
-      title={playing ? 'Pause music' : 'Play music'}
-    >
-      <img
-        className="music-btn__vinyl"
-        src="/decor/vinyl.png"
-        alt=""
-        aria-hidden="true"
-        draggable="false"
-      />
-      {/* tonearm / needle — swings onto the disc when playing */}
-      <span className="music-btn__arm" aria-hidden="true">
-        <span className="music-btn__needle" />
-      </span>
-    </button>
+    <>
+      <button
+        type="button"
+        className={`music-btn ${open ? 'is-playing' : ''}`}
+        onClick={() => setOpen((o) => !o)}
+        aria-label={open ? 'Hide music player' : 'Play music'}
+        title={open ? 'Hide music player' : 'Play music'}
+      >
+        <img
+          className="music-btn__vinyl"
+          src="/decor/vinyl.png"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        <span className="music-btn__arm" aria-hidden="true">
+          <span className="music-btn__needle" />
+        </span>
+      </button>
+
+      {/* Always mounted so audio keeps playing when collapsed */}
+      <div className={`music-embed ${open ? 'is-open' : ''}`}>
+        <iframe
+          src="https://audiomack.com//embed/arijitsingh/song/jogi"
+          scrolling="no"
+          width="100%"
+          height="252"
+          frameBorder="0"
+          title="Jogi — Arijit Singh"
+          allow="autoplay"
+        />
+      </div>
+    </>
   )
 }

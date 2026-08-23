@@ -4,7 +4,7 @@
   max-width: var(--card-max, 460px);
   margin: 0 auto;
   container-type: inline-size; /* cqw resolves against this width */
-  background: #e9bcae; /* deeper blush base (was #f7ddd6) */
+  background: #f0d0c4; /* blush base — lighter for readability */
   overflow: hidden;
   /* Contain the canvas z-indexes so the fixed music button (and petals) are
      never hidden behind the artwork layers. */
