@@ -14,6 +14,7 @@ const SKIP = new Set([
   '234:236', '234:232', '234:233', '234:229', '234:230', // scratch -> ScratchFig
   '197:54',                                               // countdown placeholder -> Countdown
   '329:39', '329:36', '329:46', '329:49', '533:683',     // form labels/inputs -> RsvpFormFig
+  '448:31',                                               // duplicate footer disc (real music button instead)
 ])
 const GOLD = '#c9a24a'
 

@@ -6,6 +6,9 @@
   container-type: inline-size; /* cqw resolves against this width */
   background: #e9bcae; /* deeper blush base (was #f7ddd6) */
   overflow: hidden;
+  /* Contain the canvas z-indexes so the fixed music button (and petals) are
+     never hidden behind the artwork layers. */
+  isolation: isolate;
 }
 
 /* Light backing behind the RSVP form; z below the frame decorations (86) */

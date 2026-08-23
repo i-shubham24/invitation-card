@@ -40,7 +40,7 @@ export default function Petals() {
         sway: rand(0.5, 1.3),
         phase: rand(0, Math.PI * 2),
         color: COLORS[(Math.random() * COLORS.length) | 0],
-        alpha: rand(0.5, 0.85),
+        alpha: rand(0.75, 1),
       })
     }
     function petal(p) {
@@ -87,7 +87,7 @@ export default function Petals() {
       ctx.save()
       ctx.translate(b.x, b.y)
       ctx.rotate(Math.atan2(b.vy, b.vx))
-      ctx.globalAlpha = 0.82
+      ctx.globalAlpha = 0.96
       for (const s of [-1, 1]) {
         ctx.beginPath()
         ctx.ellipse(s * b.size * 0.5, -b.size * 0.3, wing * 0.55, b.size * 0.7, s * 0.5, 0, Math.PI * 2)
