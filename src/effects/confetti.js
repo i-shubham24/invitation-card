@@ -5,8 +5,51 @@
  */
 const COLORS = ['#e86a5c', '#f0a500', '#7bb662', '#4a90d9', '#c9569e', '#f5c542', '#ff8fab', '#9b6bd6']
 
+/* A synthesized "party popper" pop + sparkle (Web Audio — no sound file). */
+let audioCtx = null
+function popSound() {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext
+    if (!AC) return
+    audioCtx = audioCtx || new AC()
+    if (audioCtx.state === 'suspended') audioCtx.resume()
+    const ctx = audioCtx
+    const now = ctx.currentTime
+
+    // 1) the pop — short noise burst through a bandpass
+    const dur = 0.09
+    const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate)
+    const d = buf.getChannelData(0)
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2)
+    const src = ctx.createBufferSource(); src.buffer = buf
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1300; bp.Q.value = 0.7
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.55, now); g.gain.exponentialRampToValueAtTime(0.001, now + dur)
+    src.connect(bp).connect(g).connect(ctx.destination); src.start(now)
+
+    // 2) a quick descending "thump" for the cork
+    const osc = ctx.createOscillator(); osc.type = 'triangle'
+    osc.frequency.setValueAtTime(880, now); osc.frequency.exponentialRampToValueAtTime(160, now + 0.08)
+    const og = ctx.createGain(); og.gain.setValueAtTime(0.28, now); og.gain.exponentialRampToValueAtTime(0.001, now + 0.1)
+    osc.connect(og).connect(ctx.destination); osc.start(now); osc.stop(now + 0.11)
+
+    // 3) sparkle shimmer trailing off
+    const sdur = 0.55
+    const sbuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * sdur), ctx.sampleRate)
+    const sd = sbuf.getChannelData(0)
+    for (let i = 0; i < sd.length; i++) sd[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / sd.length, 3)
+    const ssrc = ctx.createBufferSource(); ssrc.buffer = sbuf
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 4200
+    const sg = ctx.createGain()
+    sg.gain.setValueAtTime(0.0001, now + 0.02)
+    sg.gain.linearRampToValueAtTime(0.16, now + 0.06)
+    sg.gain.exponentialRampToValueAtTime(0.001, now + sdur)
+    ssrc.connect(hp).connect(sg).connect(ctx.destination); ssrc.start(now + 0.02)
+  } catch { /* audio not available — visual burst still fires */ }
+}
+
 export default function confetti(x, y) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  popSound()
 
   const canvas = document.createElement('canvas')
   canvas.style.cssText =

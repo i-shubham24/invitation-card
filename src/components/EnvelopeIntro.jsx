@@ -85,12 +85,6 @@ export default function EnvelopeIntro({ onOpened }) {
           </button>
         )}
       </div>
-
-      {phase === 'opening' && (
-        <button type="button" className="env2__skip" onClick={finish}>
-          Skip &rsaquo;
-        </button>
-      )}
     </div>
   )
 }

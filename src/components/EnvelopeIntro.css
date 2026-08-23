@@ -18,14 +18,25 @@
   pointer-events: none;
 }
 
-/* Largest 9:16 box that fits the viewport, capped to the card column width */
+/* Phones (taller than the 9:16 clip): fill the whole screen — the crop is only
+   horizontal and symmetric, so the centred heart stays put and there's no band. */
 .env2__stage {
   position: relative;
-  width: min(100vw, 460px, calc(100dvh * 0.5625));
-  aspect-ratio: 720 / 1280;
+  width: 100vw;
+  height: 100dvh;
   margin: 0 auto;
-  border-radius: 2px;
   overflow: hidden;
+}
+/* Wider screens (desktop/tablet/landscape): a contained 9:16 card column on the
+   blush field, so the video isn't over-cropped and the heart stays visible. */
+@media (min-aspect-ratio: 720 / 1280) {
+  .env2__stage {
+    width: auto;
+    height: 100dvh;
+    max-width: 460px;
+    aspect-ratio: 720 / 1280;
+    border-radius: 2px;
+  }
 }
 
 .env2__poster,
@@ -83,22 +94,6 @@
   0% { transform: scale(0.82); opacity: 0.7; }
   70% { opacity: 0; }
   100% { transform: scale(1.7); opacity: 0; }
-}
-
-.env2__skip {
-  position: absolute;
-  bottom: max(20px, env(safe-area-inset-bottom));
-  right: 20px;
-  padding: 8px 16px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  color: #a4574f;
-  background: rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(164, 95, 82, 0.3);
-  border-radius: 999px;
-  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {
