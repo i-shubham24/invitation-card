@@ -221,7 +221,7 @@
 }
 /* gold location medallion — shown directly (no circle) */
 .rff__eventmain img {
-  width: 4.8cqw; height: 4.8cqw; flex: none;
+  width: 4.32cqw; height: 4.32cqw; flex: none;
   object-fit: contain;
   filter: drop-shadow(0 0.2cqw 0.4cqw rgba(150, 90, 80, 0.18));
 }
@@ -234,21 +234,21 @@
 /* Map/directions button — sits just left of the checkbox for easy tapping */
 .rff__map {
   flex: none;
-  display: inline-flex; align-items: center; gap: 0.4cqw;
-  padding: 0.9cqw 1.6cqw;
+  display: inline-flex; align-items: center; gap: 0.36cqw;
+  padding: 0.81cqw 1.44cqw;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.7);
   color: #a4574f; font-family: 'Cormorant Garamond', serif; font-weight: 600;
-  font-size: 1.9cqw; letter-spacing: 0.05cqw; text-decoration: none; white-space: nowrap;
+  font-size: 1.71cqw; letter-spacing: 0.05cqw; text-decoration: none; white-space: nowrap;
   box-shadow: 0 0.3cqw 0.8cqw rgba(150, 90, 80, 0.16);
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 .rff__map:hover { background: #fff; transform: translateY(-0.3cqw); }
 .rff__check {
   flex: none;
-  width: 5.2cqw; height: 5.2cqw; display: grid; place-items: center;
+  width: 3.12cqw; height: 3.12cqw; display: grid; place-items: center;
   border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.65); color: #fff;
-  font-size: 2.7cqw; cursor: pointer; transition: background-color 0.2s ease;
+  font-size: 1.6cqw; cursor: pointer; transition: background-color 0.2s ease;
 }
 .rff__event.on .rff__check { background: #c98a76; }
 
