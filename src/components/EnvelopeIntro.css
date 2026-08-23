@@ -1,213 +1,106 @@
 /* ===========================================================================
-   Native CSS envelope intro — fills any screen, opens on the heart
+   Video envelope intro — presented in the site's portrait card column
    =========================================================================== */
-.env {
+.env2 {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(24px, 5vh, 48px);
-  padding: 24px;
+  display: grid;
+  place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(130% 90% at 50% 18%, #fdf3f0 0%, #f6dfd9 46%, #edc7c0 78%, #e3b3ab 100%);
-  transition: opacity 0.7s ease, visibility 0.7s ease;
+    radial-gradient(120% 90% at 50% 18%, #fdf3f0 0%, #f3ddd7 52%, #ecc7bb 82%, #e3b3a8 100%);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-.env.is-open {
-  /* let the letter be read for a beat, then the whole cover fades */
-  animation: env-fade 0.8s ease 1.25s forwards;
-}
-@keyframes env-fade {
-  to { opacity: 0; visibility: hidden; }
-}
-
-/* floral corners dressing the blush field */
-.env__decor {
-  position: absolute;
-  width: clamp(140px, 34vw, 300px);
+.env2--done {
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  z-index: 0;
-  opacity: 0.9;
-  filter: drop-shadow(0 8px 14px rgba(140, 85, 74, 0.14));
-}
-.env__decor--tl { top: -14px; left: -20px; transform: scaleX(-1); }
-.env__decor--tr { top: -14px; right: -20px; }
-.env__decor--bl { bottom: -14px; left: -20px; transform: scale(-1); }
-.env__decor--br { bottom: -14px; right: -20px; transform: scaleY(-1); }
-.env.is-open .env__decor { transition: opacity 0.6s ease; opacity: 0; }
-@media (max-width: 520px) {
-  .env__decor--bl, .env__decor--br { opacity: 0.7; }
 }
 
-/* --- the envelope -------------------------------------------------------- */
-.env__scene {
+/* Largest 9:16 box that fits the viewport, capped to the card column width */
+.env2__stage {
   position: relative;
-  width: min(86vw, 380px);
-  aspect-ratio: 3 / 2;
-  perspective: 1600px;
-  filter: drop-shadow(0 26px 40px rgba(140, 85, 74, 0.32));
+  width: min(100vw, 460px, calc(100dvh * 0.5625));
+  aspect-ratio: 720 / 1280;
+  margin: 0 auto;
+  border-radius: 2px;
+  overflow: hidden;
 }
-/* envelope back */
-.env__scene::before {
-  content: '';
+
+.env2__poster,
+.env2__video {
   position: absolute;
   inset: 0;
-  border-radius: 12px;
-  background: linear-gradient(155deg, #f7e7e1, #efd4cc);
-  box-shadow: inset 0 0 0 1px rgba(180, 130, 118, 0.35);
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* aspect matches the stage, so nothing is cropped */
+  user-select: none;
 }
 
-/* the letter/card — hidden inside the envelope, rises out of the top on open */
-.env__card {
-  position: absolute;
-  left: 6%;
-  right: 6%;
-  top: 3%;
-  height: 94%;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 6px;
-  padding: 22px 18px;
-  border-radius: 10px 10px 8px 8px;
-  background: linear-gradient(180deg, #fffaf7 0%, #fdeee8 100%);
-  box-shadow: 0 6px 18px rgba(150, 90, 80, 0.18);
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.5s,
-    z-index 0s linear 0.5s;
+/* Video fades in over the poster when opening (masks the first-frame jump) */
+.env2__video {
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
-.env.is-open .env__card {
-  transform: translateY(-72%);
-  z-index: 6;
-}
-.env__card-mono { width: 46%; max-width: 130px; margin-bottom: 4px; }
-.env__card-invite {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #b0796c;
-}
-.env__card-names {
-  margin: 2px 0;
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(1.5rem, 6vw, 2.1rem);
-  color: #a4574f;
-  line-height: 1.1;
-}
-.env__card-date {
-  margin: 0;
-  font-family: var(--font-serif);
-  letter-spacing: 0.12em;
-  color: #8a6a63;
-  font-size: 0.9rem;
+.env2--opening .env2__video,
+.env2--done .env2__video {
+  opacity: 1;
 }
 
-/* envelope front — covers the whole face except a small notch at the top
-   centre (where the flap tucks), so the letter is fully hidden until it rises */
-.env__front {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border-radius: 12px;
-  background: linear-gradient(160deg, #f2ddd6 0%, #e9cbc2 100%);
-  clip-path: polygon(0 0, 44% 0, 50% 10%, 56% 0, 100% 0, 100% 100%, 0 100%);
-  box-shadow: inset 0 0 0 1px rgba(180, 130, 118, 0.3);
-}
-/* subtle crease lines on the pocket */
-.env__front::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom right, transparent 49.6%, rgba(180, 130, 118, 0.28) 49.8%, transparent 50%),
-    linear-gradient(to bottom left, transparent 49.6%, rgba(180, 130, 118, 0.28) 49.8%, transparent 50%);
-}
-
-/* top flap */
-.env__flap {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 63%;
-  z-index: 5;
-  transform-origin: top center;
-  transform: rotateX(0deg);
-  transform-style: preserve-3d;
-  background: linear-gradient(170deg, #f4e0d9 0%, #e7c7bd 100%);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  box-shadow: 0 2px 6px rgba(150, 90, 80, 0.15);
-  transition: transform 0.8s cubic-bezier(0.6, 0, 0.4, 1),
-    z-index 0s linear 0.4s;
-}
-.env.is-open .env__flap {
-  transform: rotateX(178deg);
-  z-index: 1;
-}
-
-/* heart wax seal button */
-.env__seal {
+/* Heart hotspot over the wax seal */
+.env2__heart {
   position: absolute;
   left: 50%;
-  top: 55%;
-  width: clamp(62px, 17vw, 82px);
-  height: clamp(58px, 16vw, 76px);
-  translate: -50% -50%;
+  top: 75.5%;
+  transform: translate(-50%, -50%);
+  width: 26%;
+  aspect-ratio: 1;
   padding: 0;
   border: 0;
   background: transparent;
+  border-radius: 50%;
   cursor: pointer;
-  z-index: 7;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
   -webkit-tap-highlight-color: transparent;
-  filter: drop-shadow(0 6px 10px rgba(120, 70, 60, 0.4));
 }
-.env__seal:hover { transform: translate(-50%, -50%) scale(1.06); }
-.env.is-open .env__seal { opacity: 0; transform: translate(-50%, -50%) scale(0.4); pointer-events: none; }
-.env__seal:focus-visible { outline: 3px solid #a4574f; outline-offset: 4px; border-radius: 50%; }
+.env2__heart:focus-visible {
+  outline: 3px solid #a4574f;
+  outline-offset: 4px;
+}
 
-/* inviting pulse rings */
-.env__pulse {
+.env2__pulse {
   position: absolute;
-  inset: 6%;
+  inset: 0;
   border-radius: 50%;
   border: 2px solid rgba(201, 138, 118, 0.7);
-  animation: env-pulse 2.4s ease-out infinite;
-  pointer-events: none;
+  opacity: 0;
+  animation: env2-pulse 2.2s ease-out infinite;
 }
-.env__pulse--2 { animation-delay: 1.2s; }
-@keyframes env-pulse {
-  0% { transform: scale(0.8); opacity: 0.7; }
+.env2__pulse--2 {
+  animation-delay: 1.1s;
+}
+@keyframes env2-pulse {
+  0% { transform: scale(0.82); opacity: 0.7; }
   70% { opacity: 0; }
   100% { transform: scale(1.7); opacity: 0; }
 }
-.env.is-open .env__pulse { display: none; }
 
-/* hint */
-.env__hint {
-  position: relative;
-  z-index: 2;
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 0.82rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+.env2__skip {
+  position: absolute;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  right: 20px;
+  padding: 8px 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
   color: #a4574f;
-  animation: hint-breathe 2.6s ease-in-out infinite;
-}
-.env.is-open .env__hint { opacity: 0; transition: opacity 0.3s ease; }
-@keyframes hint-breathe {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(164, 95, 82, 0.3);
+  border-radius: 999px;
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .env__pulse, .env__hint { animation: none; }
-  .env__card, .env__flap { transition: none; }
+  .env2__pulse { animation: none; opacity: 0.5; }
 }
