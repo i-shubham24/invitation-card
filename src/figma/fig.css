@@ -219,14 +219,11 @@
   display: flex; align-items: center; gap: 1.4cqw;
   padding: 0; border: 0; background: transparent; cursor: pointer; text-align: left;
 }
-/* gold location medallion — larger and framed in a clean circle */
+/* gold location medallion — shown directly (no circle), larger */
 .rff__eventmain img {
-  width: 8cqw; height: 8cqw; flex: none;
+  width: 9.5cqw; height: 9.5cqw; flex: none;
   object-fit: contain;
-  padding: 0.9cqw;
-  background: radial-gradient(circle at 50% 40%, #fffaf6, #f3ddd4);
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(201, 138, 118, 0.45), 0 0.3cqw 0.8cqw rgba(150, 90, 80, 0.15);
+  filter: drop-shadow(0 0.3cqw 0.6cqw rgba(150, 90, 80, 0.18));
 }
 .rff__eventtext { display: flex; flex-direction: column; gap: 0.05cqw; flex: 1; min-width: 0; line-height: 1.1; }
 .rff__eventtext strong { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 2.15cqw; letter-spacing: 0.12cqw; text-transform: uppercase; color: #7a4a42; }
