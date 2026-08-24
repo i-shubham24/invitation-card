@@ -6,7 +6,10 @@
 .figd {
   position: relative;
   width: 100%;
-  max-width: var(--card-max-d, 1178px);
+  /* Fill the whole window — capping at 1178px left a blush "mat" showing on
+     both sides (and at the corners) on screens wider than that. Everything is
+     sized in cqw against this width, so filling just scales the frame up. */
+  max-width: none;
   margin: 0 auto;
   container-type: inline-size;
   /* Base gradient — exact Figma fill (colors + per-stop opacities transcribed
@@ -37,4 +40,19 @@
 .figd .cd-inline {
   container-type: inline-size;
   z-index: 40;
+}
+
+/* Desktop has the room for a 2-up events grid (mobile stays single-column so
+   the cards don't get cramped). An odd last card spans both columns so it
+   centres instead of hanging in the left cell. */
+.figd__form .rff__events {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1cqw;
+}
+.figd__form .rff__event {
+  min-width: 0; /* let cards shrink to their grid track */
+}
+.figd__form .rff__event:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }

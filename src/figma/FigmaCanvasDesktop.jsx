@@ -18,6 +18,8 @@ const SKIP_IDS = new Set([
   '683:2685', '683:2697', '683:2704', '683:2692', '683:2696',
   // RSVP field label + input (the rest of the form is the 719:* namespace)
   '683:2678', '683:2681', '683:2682', '683:2683',
+  // dummy footer vinyl disc — the real music button is rendered separately
+  '683:2810',
 ])
 const skip = (id) => id.startsWith('719:') || SKIP_IDS.has(id)
 
@@ -49,14 +51,16 @@ function Item({ it }) {
   if (it.kind === 'text') {
     // footer texts render statically (reveal fires too late that far down)
     const reveal = it.y < 93.5
+    // The footer block (y > 96) reads too small on the wide desktop — scale it up.
+    const fscale = it.y > 96 ? 1.5 : 1
     return (
       <div className={reveal ? `fig__text rv rv--${variantFor(it)}` : 'fig__text'}
         style={{
           left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, zIndex: it.z,
           fontFamily: `'${it.font}', 'Cormorant Garamond', serif`,
-          fontSize: cqw(it.size), fontWeight: it.weight,
+          fontSize: cqw(it.size * fscale), fontWeight: it.weight,
           letterSpacing: it.spacing ? cqw(it.spacing) : 'normal',
-          lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
+          lineHeight: it.lineh ? cqw(it.lineh * fscale) : 1.15,
           color: it.color, textAlign: (it.align || 'left').toLowerCase(),
           whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
         }}>
@@ -121,8 +125,9 @@ function useScrollReveal(active) {
 
 // Hero scratch box (Figma rect 683:2685 / 2697), buried "3 December, 2026".
 const SCRATCH_RECT = { x: 26.06, y: 5.576, w: 48.13, h: 1.366 }
-// Countdown, centred just below the "Until Our Forever Begins" heading.
-const CD_BOX = { x: 26, y: 12.55, w: 48 }
+// Countdown — matched to the translucent box (node 683:2714, y 11.878–12.734%)
+// and nudged up so the cells sit vertically centred inside it, not below it.
+const CD_BOX = { x: 26.66, y: 12.12, w: 46.01 }
 // RSVP form region — aligned to the Figma name-input width.
 const FORM_BOX = { x: 20.37, y: 88.85, w: 60.44 }
 
