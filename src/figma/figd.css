@@ -45,17 +45,5 @@
   z-index: 40;
 }
 
-/* Desktop has the room for a 2-up events grid (mobile stays single-column so
-   the cards don't get cramped). An odd last card spans both columns so it
-   centres instead of hanging in the left cell. */
-.figd__form .rff__events {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.1cqw;
-}
-.figd__form .rff__event {
-  min-width: 0; /* let cards shrink to their grid track */
-}
-.figd__form .rff__event:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-}
+/* Events are single-column on desktop too, matching the mobile format
+   (one event per row). */
