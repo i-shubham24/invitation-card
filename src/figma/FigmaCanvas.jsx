@@ -33,6 +33,11 @@ const EXTRA = [
 // Footer texts: shown statically (no scroll reveal — they were firing too late).
 const NO_REVEAL = new Set(['406:16', '406:17', '406:18', '406:19'])
 
+// RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30) — lifted up
+// with the form so the whole block fills the scallop panel's cloud-top space.
+const RSVP_LIFT = 0.3
+const RSVP_HEAD = new Set(['329:37', '406:13', '406:14', '406:15'])
+
 function variantFor(it) {
   const center = it.x + it.w / 2
   if (it.align === 'CENTER' || (it.size || 0) >= 28) return 'up'
@@ -145,7 +150,7 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
   return (
     <div className="fig" style={{ aspectRatio: `${CANVAS.w} / ${CANVAS.h}` }}>
       {[...ITEMS.filter((it) => !SKIP.has(it.id)), ...EXTRA].map((it) => (
-        <Item key={it.id} it={it} />
+        <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
       ))}
 
       {scratch && <ScratchFig rect={{ x: 24, y: 5.45, w: 52, h: 1.5 }} />}

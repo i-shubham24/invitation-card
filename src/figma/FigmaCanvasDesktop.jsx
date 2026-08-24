@@ -131,8 +131,14 @@ const SCRATCH_RECT = { x: 26.06, y: 5.576, w: 48.13, h: 1.366 }
 // Countdown — matched to the translucent box (node 683:2714, y 11.878–12.734%)
 // and nudged up so the cells sit vertically centred inside it, not below it.
 const CD_BOX = { x: 26.66, y: 12.12, w: 46.01 }
-// RSVP form region — aligned to the Figma name-input width.
-const FORM_BOX = { x: 20.37, y: 88.85, w: 60.44 }
+// RSVP form region — aligned to the Figma name-input width, pulled up with the
+// heading block to fill the scallop panel's cloud-top space.
+const FORM_BOX = { x: 20.37, y: 88.65, w: 60.44 }
+
+// RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30) — lifted up
+// with the form so the whole block fills the scallop panel's cloud-top space.
+const RSVP_LIFT = 0.2
+const RSVP_HEAD = new Set(['683:2679', '683:2775', '683:2776', '683:2684'])
 
 export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
   useScrollReveal(opened)
@@ -140,7 +146,7 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
   return (
     <div className="figd" style={{ aspectRatio: `${CANVAS_D.w} / ${CANVAS_D.h}` }}>
       {ITEMS_D.filter((it) => !skip(it.id)).map((it) => (
-        <Item key={it.id} it={it} />
+        <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
       ))}
 
       {/* Form background — scalloped "3 curve hills" panel (replaces the flat

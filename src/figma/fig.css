@@ -23,6 +23,9 @@
     rgba(227, 131, 122, 1) 100%
   );
   overflow: hidden;
+  /* Rounded top corners so the card reads as a card at the very top. */
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
   /* Contain the canvas z-indexes so the fixed music button (and petals) are
      never hidden behind the artwork layers. */
   isolation: isolate;
@@ -144,7 +147,7 @@
 .fig__form {
   position: absolute;
   left: 18%;
-  top: 90.35%; /* just below the "SEPTEMBER 30, 2026" heading */
+  top: 90.05%; /* pulled up with the RSVP heading block to fill the cloud-top space */
   width: 64%;
   z-index: 90; /* above the decorative frame image (z 86) */
 }

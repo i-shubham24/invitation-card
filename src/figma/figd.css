@@ -25,6 +25,9 @@
     rgba(227, 131, 122, 1) 100%
   );
   overflow: hidden;
+  /* Rounded top corners so the card reads as a card at the very top. */
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
   isolation: isolate;
 }
 
