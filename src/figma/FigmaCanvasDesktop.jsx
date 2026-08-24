@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { CANVAS_D, ITEMS_D } from './manifest.desktop'
 import ScratchFig from './ScratchFig'
+import ScallopPanel from './ScallopPanel'
 import RsvpFormFig from './RsvpFormFig'
 import Countdown from '../invite/Countdown'
 import './fig.css'
@@ -18,6 +19,8 @@ const SKIP_IDS = new Set([
   '683:2685', '683:2697', '683:2704', '683:2692', '683:2696',
   // RSVP field label + input (the rest of the form is the 719:* namespace)
   '683:2678', '683:2681', '683:2682', '683:2683',
+  // flat form panel (ellipses + rect) -> ScallopPanel (3-hill scalloped top)
+  '683:2674', '683:2675', '683:2676', '683:2677',
   // dummy footer vinyl disc — the real music button is rendered separately
   '683:2810',
 ])
@@ -52,7 +55,7 @@ function Item({ it }) {
     // footer texts render statically (reveal fires too late that far down)
     const reveal = it.y < 93.5
     // The footer block (y > 96) reads too small on the wide desktop — scale it up.
-    const fscale = it.y > 96 ? 1.5 : 1
+    const fscale = it.y > 96 ? 2 : 1
     return (
       <div className={reveal ? `fig__text rv rv--${variantFor(it)}` : 'fig__text'}
         style={{
@@ -139,6 +142,10 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
       {ITEMS_D.filter((it) => !skip(it.id)).map((it) => (
         <Item key={it.id} it={it} />
       ))}
+
+      {/* Form background — scalloped "3 curve hills" panel (replaces the flat
+          Figma ellipses/rect). Sits below the RSVP text + controls. */}
+      <ScallopPanel x={5.526} y={86.991} w={85.992} h={7.433} />
 
       <ScratchFig rect={SCRATCH_RECT} date="3 December, 2026" />
 

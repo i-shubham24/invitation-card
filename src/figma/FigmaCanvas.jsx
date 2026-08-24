@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { CANVAS, ITEMS } from './manifest'
 import ScratchFig from './ScratchFig'
+import ScallopPanel from './ScallopPanel'
 import RsvpFormFig from './RsvpFormFig'
 import Countdown from '../invite/Countdown'
 import './fig.css'
@@ -14,6 +15,7 @@ const SKIP = new Set([
   '234:236', '234:232', '234:233', '234:229', '234:230', // scratch -> ScratchFig
   '197:54',                                               // countdown placeholder -> Countdown
   '329:39', '329:36', '329:46', '329:49', '533:683',     // form labels/inputs -> RsvpFormFig
+  '329:15', '329:16', '329:17', '329:18',                // flat form panel -> ScallopPanel (3-hill top)
   '448:31',                                               // duplicate footer disc (real music button instead)
 ])
 const GOLD = '#c9a24a'
@@ -155,10 +157,9 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
         </div>
       )}
 
-      {/* Light backing panel for form legibility — sits BELOW the frame's
-          lake & flowers (z 86) so it never covers the decorations, only fills
-          the clear centre. */}
-      <div className="fig__formbg" />
+      {/* Form background — scalloped "3 curve hills" panel (replaces the flat
+          Figma ellipses/rect). Sits below the RSVP text + controls. */}
+      <ScallopPanel x={5.841} y={88.339} w={86.817} h={7.561} />
 
       {/* Real form inside the Figma RSVP background */}
       <div className="fig__form">
