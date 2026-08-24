@@ -1,0 +1,41 @@
+/* ================= Desktop canvas (Figma frame 11, 1178 x 15297) =========
+   Mirrors .fig but scaled to the wide desktop layout. cqw units in fig.css
+   (.rff, .scratchfig, .cd-inline) resolve against the nearest container-type
+   ancestor, so form/scratch/countdown wrappers below set their own
+   container-type to keep those controls a sensible size. */
+.figd {
+  position: relative;
+  width: 100%;
+  max-width: var(--card-max-d, 1178px);
+  margin: 0 auto;
+  container-type: inline-size;
+  background: linear-gradient(
+    180deg,
+    #f9dbe6 0%,
+    #efdcf3 12%,
+    #f6d7e4 22%,
+    #dbe6f4 34%,
+    #cfe0f2 44%,
+    #e6dcf3 54%,
+    #d7e4f4 64%,
+    #eed4e2 76%,
+    #f3cdd8 88%,
+    #eec1bf 100%
+  );
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* RSVP form overlay — its own container so the .rff cqw controls size against
+   the form width (~712px) rather than the full 1178 canvas. */
+.figd__form {
+  position: absolute;
+  container-type: inline-size;
+  z-index: 200;
+}
+
+/* Countdown overlay — own container so .cd cqw cells size against its width. */
+.figd .cd-inline {
+  container-type: inline-size;
+  z-index: 40;
+}
