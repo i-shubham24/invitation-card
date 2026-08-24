@@ -7,16 +7,27 @@
  * z-stack (below the RSVP text + the form controls), like the shapes it
  * replaces, so text and inputs render on top.
  *
- * The viewBox aspect (~0.80) matches the panel box; preserveAspectRatio="none"
- * lets it stretch to each layout's box. Hill centres land at 24.2% / 51.5% /
+ * preserveAspectRatio="none" stretches the viewBox to each layout's box. The
+ * bumps live in the top ~100 units; `vbh` sets the viewBox height (i.e. the body
+ * length), so a shorter panel (desktop, whose form is compact) keeps the same
+ * bump proportion instead of flattening. Hill centres land at 24.2% / 51.5% /
  * 78.6% of the width, the centre hill the tallest, per the Figma.
  */
-export default function ScallopPanel({ x, y, w, h, z = 13, color = '#fad2c8' }) {
+export default function ScallopPanel({ x, y, w, h, vbh = 1245, z = 13, color = '#fad2c8' }) {
+  const d = `M0,100
+     C60,100 150,30 242,30
+     C315,30 350,86 388,86
+     C430,86 472,22 515,22
+     C558,22 600,86 642,86
+     C680,86 730,30 786,30
+     C878,30 940,100 1000,100
+     L1000,${vbh - 40} Q1000,${vbh} 960,${vbh}
+     L40,${vbh} Q0,${vbh} 0,${vbh - 40} Z`
   return (
     <svg
       className="fig__scallop"
       aria-hidden="true"
-      viewBox="0 0 1000 1245"
+      viewBox={`0 0 1000 ${vbh}`}
       preserveAspectRatio="none"
       style={{
         position: 'absolute',
@@ -29,18 +40,7 @@ export default function ScallopPanel({ x, y, w, h, z = 13, color = '#fad2c8' }) 
         pointerEvents: 'none',
       }}
     >
-      <path
-        fill={color}
-        d="M0,100
-           C60,100 150,30 242,30
-           C315,30 350,86 388,86
-           C430,86 472,22 515,22
-           C558,22 600,86 642,86
-           C680,86 730,30 786,30
-           C878,30 940,100 1000,100
-           L1000,1205 Q1000,1245 960,1245
-           L40,1245 Q0,1245 0,1205 Z"
-      />
+      <path fill={color} d={d} />
     </svg>
   )
 }

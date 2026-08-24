@@ -149,9 +149,10 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
         <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
       ))}
 
-      {/* Form background — scalloped "3 curve hills" panel (replaces the flat
-          Figma ellipses/rect). Sits below the RSVP text + controls. */}
-      <ScallopPanel x={5.526} y={86.991} w={85.992} h={7.433} />
+      {/* Form background — scalloped "3 curve hills" panel. Shortened (h) to end
+          just below SEND RSVP now the 2-up grid makes the form compact; vbh
+          keeps the bump proportion so they stay round, not flattened. */}
+      <ScallopPanel x={5.526} y={86.991} w={85.992} h={4.95} vbh={834} />
 
       <ScratchFig rect={SCRATCH_RECT} date="3 December, 2026" />
 
