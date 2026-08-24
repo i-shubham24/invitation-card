@@ -1,7 +1,11 @@
 .fig {
   position: relative;
   width: 100%;
-  max-width: var(--card-max, 460px);
+  /* Fill the viewport width right up to the 1024px desktop hand-off. Capping at
+     460px left a blush "mat" showing on either side at tablet widths (461–1023);
+     everything here is sized in cqw against this width, so filling just scales
+     the phone card up proportionally — no side borders. */
+  max-width: none;
   margin: 0 auto;
   container-type: inline-size; /* cqw resolves against this width */
   /* Base gradient — exact Figma fill of "Rectangle 5" (the full-page base rect,

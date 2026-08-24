@@ -1,17 +1,26 @@
 /* ===========================================================================
-   Video envelope intro — presented in the site's portrait card column
+   Envelope intro — the "opens upward" video over a responsive stage.
+
+   Responsive strategy (this is the part that fixed the borders/crop):
+   - Phones/tablets (< 1024px): the poster + video COVER the whole screen. Only
+     the side margins are cropped, and all the key art (monogram, seal, text) is
+     horizontally centred, so nothing meaningful is lost and there are no bars.
+   - Real desktops (>= 1024px): a CONTAINed 9:16 card on a soft blush field, so
+     the seal is never cropped off a very wide screen. Keyed on WIDTH, not
+     aspect ratio, so a short/wide phone-emulator window still goes full-bleed.
+   The video shares the exact same stage as the poster, so the seal lines up.
    =========================================================================== */
 .env2 {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: grid;
-  place-items: center;
+  --seal-x: 50%;
+  --seal-y: 75.5%; /* centre of the wax seal in the poster */
   overflow: hidden;
   touch-action: none;          /* no scroll/zoom gestures over the opening page */
   overscroll-behavior: none;
   background:
-    radial-gradient(120% 90% at 50% 18%, #fdf3f0 0%, #f3ddd7 52%, #ecc7bb 82%, #e3b3a8 100%);
+    radial-gradient(120% 100% at 50% 12%, #fdf3f0 0%, #f6e0da 55%, #eccabf 100%);
   transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 .env2--done {
@@ -20,38 +29,43 @@
   pointer-events: none;
 }
 
-/* Phones (taller than the 9:16 clip): fill the whole screen — the crop is only
-   horizontal and symmetric, so the centred heart stays put and there's no band. */
+/* The stage. Sized to always COVER the viewport while preserving the 720:1280
+   aspect (the two max() terms stay consistent at exactly 0.5625), so there are
+   never bars — the excess overflows equally and is clipped. Centred with
+   absolute + translate (reliable even when larger than the viewport, unlike
+   grid/flex centring, which pins an oversized child to one edge). */
 .env2__stage {
-  position: relative;
-  width: 100vw;
-  height: 100dvh;
-  margin: 0 auto;
-  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100vw, calc(100dvh * 720 / 1280));
+  height: max(100dvh, calc(100vw * 1280 / 720));
 }
-/* Wider screens (desktop/tablet/landscape): a contained 9:16 card column on the
-   blush field, so the video isn't over-cropped and the heart stays visible. */
-@media (min-aspect-ratio: 720 / 1280) {
+/* Only real desktops get the contained card on the blush field. */
+@media (min-width: 1024px) {
   .env2__stage {
     width: auto;
     height: 100dvh;
-    max-width: 460px;
     aspect-ratio: 720 / 1280;
-    border-radius: 2px;
+    box-shadow: 0 30px 80px rgba(150, 90, 80, 0.28);
+    border-radius: 3px;
   }
 }
 
+/* Poster and video share the stage exactly, so the seal stays put. */
 .env2__poster,
 .env2__video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* aspect matches the stage, so nothing is cropped */
+  object-fit: cover; /* stage aspect matches the media, so no distortion */
   user-select: none;
 }
 
-/* Video fades in over the poster when opening (masks the first-frame jump) */
+/* The video fades in over the poster when opening (masks the first-frame jump)
+   and stays up through the reveal. */
 .env2__video {
   opacity: 0;
   transition: opacity 0.35s ease;
@@ -64,8 +78,8 @@
 /* Heart hotspot over the wax seal */
 .env2__heart {
   position: absolute;
-  left: 50%;
-  top: 75.5%;
+  left: var(--seal-x);
+  top: var(--seal-y);
   transform: translate(-50%, -50%);
   width: 26%;
   aspect-ratio: 1;
