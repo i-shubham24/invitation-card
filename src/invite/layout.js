@@ -66,6 +66,7 @@ export const EVENTS = [
   { id: 'jaago', name: 'Jaago', venue: 'At Green Tulip, Amritsar', map: 'Green Tulip, Amritsar' },
   { id: 'anand', name: 'Anand Karaj', venue: 'At Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar', map: 'Baba Shri Chand Ji Gurudwara, Sandhu Colony, Amritsar' },
   { id: 'reception', name: 'Wedding reception', venue: 'At Maribella Resort, Amritsar', map: 'Maribella Resort, Amritsar' },
+  { id: 'sukhmani', name: 'Sukhmani Sahib Paath', venue: '78 Castlepark Grove, Halifax, NS, B3M 4X9', map: '78 Castlepark Grove, Halifax, NS B3M 4X9', date: '12 September 2026' },
 ]
 
 export const COUPLE = 'Akashdeep Singh Sehdev & Harmandip Kaur'

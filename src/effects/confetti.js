@@ -1,9 +1,48 @@
 /**
- * confetti(x, y) — a one-shot "party popper" burst of colourful paper pieces.
- * Self-contained: creates a temporary full-screen canvas, animates the burst,
- * then removes itself. No dependencies.
+ * confetti(x, y) — a one-shot "party popper" burst of drifting flower petals
+ * (three different petal forms, soft-blush palette). Self-contained: creates a
+ * temporary full-screen canvas, animates the burst, then removes itself.
+ * No dependencies.
  */
-const COLORS = ['#e86a5c', '#f0a500', '#7bb662', '#4a90d9', '#c9569e', '#f5c542', '#ff8fab', '#9b6bd6']
+// Blossom palette with real range — rose/coral/blush pinks, a peach, a lilac
+// that echoes the background gradient, and warm golds — so a single burst reads
+// as a mix of shades rather than one flat pink.
+const COLORS = [
+  '#f2b6c8', // rose pink
+  '#e39aa0', // deeper rose
+  '#f3b7ae', // coral blush
+  '#f7dcd6', // pale blush
+  '#efd0c9', // peach cream
+  '#e8b7d0', // pink-lilac
+  '#dcd3f2', // lilac (ties to the background)
+  '#d8b77a', // soft gold
+  '#e4b95e', // warm gold
+  '#eed9b4', // pale champagne gold
+]
+
+// Three petal silhouettes, drawn centred at the origin with characteristic
+// radius r. `form` picks one so a single burst mixes different petal shapes.
+function drawPetal(ctx, form, r) {
+  ctx.beginPath()
+  if (form === 0) {
+    // slim almond / leaf petal
+    ctx.moveTo(0, -r)
+    ctx.quadraticCurveTo(r * 0.9, 0, 0, r)
+    ctx.quadraticCurveTo(-r * 0.9, 0, 0, -r)
+  } else if (form === 1) {
+    // rounded teardrop petal — point at top, full rounded base
+    ctx.moveTo(0, -r)
+    ctx.bezierCurveTo(r * 0.98, -r * 0.2, r * 0.7, r, 0, r)
+    ctx.bezierCurveTo(-r * 0.7, r, -r * 0.98, -r * 0.2, 0, -r)
+  } else {
+    // cherry-blossom petal — two lobes with a soft notch at the outer edge
+    ctx.moveTo(0, r)
+    ctx.bezierCurveTo(r, r * 0.3, r * 0.82, -r * 0.9, r * 0.18, -r)
+    ctx.quadraticCurveTo(0, -r * 0.72, -r * 0.18, -r)
+    ctx.bezierCurveTo(-r * 0.82, -r * 0.9, -r, r * 0.3, 0, r)
+  }
+  ctx.fill()
+}
 
 /* A synthesized "party popper" pop + sparkle (Web Audio — no sound file). */
 let audioCtx = null
@@ -80,14 +119,14 @@ export default function confetti(x, y) {
     for (let i = 0; i < per; i++) {
       const a = base + rand(-0.62, 0.62)         // wide fan toward both sides
       const sp = rand(reach * 1.7, reach * 3.0)  // fired strongly
-      const round = Math.random() < 0.4
       parts.push({
         x: c.x, y: c.y,
         vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
-        w: rand(6, 12), h: rand(8, 16), round,
-        rot: rand(0, Math.PI * 2), vrot: rand(-10, 10),
+        form: (Math.random() * 3) | 0,           // mix the three petal shapes
+        size: rand(6, 11),
+        rot: rand(0, Math.PI * 2), vrot: rand(-6, 6),
         color: COLORS[(Math.random() * COLORS.length) | 0],
-        flip: rand(0, Math.PI * 2), vflip: rand(6, 12),
+        flip: rand(0, Math.PI * 2), vflip: rand(5, 10),
       })
     }
   }
@@ -109,16 +148,10 @@ export default function confetti(x, y) {
       ctx.save()
       ctx.globalAlpha = Math.max(0, 1 - life / 3.2)
       ctx.translate(p.x, p.y)
+      ctx.rotate(p.rot)
+      ctx.scale(1, Math.cos(p.flip))     // flutter — petal tips toward/away
       ctx.fillStyle = p.color
-      if (p.round) {
-        ctx.beginPath()
-        ctx.arc(0, 0, p.w * 0.4, 0, Math.PI * 2)
-        ctx.fill()
-      } else {
-        ctx.rotate(p.rot)
-        ctx.scale(1, Math.cos(p.flip))   // fluttering
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h)
-      }
+      drawPetal(ctx, p.form, p.size)
       ctx.restore()
     }
     if (life < 3.4) requestAnimationFrame(frame)

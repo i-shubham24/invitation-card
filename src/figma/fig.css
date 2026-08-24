@@ -4,20 +4,19 @@
   max-width: var(--card-max, 460px);
   margin: 0 auto;
   container-type: inline-size; /* cqw resolves against this width */
-  /* Multi-shade base gradient (pinks -> blues -> purples), matching the Figma
-     section tones down the page. Shows through the artwork's soft edges. */
+  /* Base gradient — exact Figma fill of "Rectangle 5" (the full-page base rect,
+     node 234:199), whose fill the extractor didn't capture. Colors + per-stop
+     opacities are transcribed 1:1 from Figma; 180deg runs it down the page.
+     Shows through the artwork's soft edges. */
   background: linear-gradient(
     180deg,
-    #f9dbe6 0%,
-    #efdcf3 12%,
-    #f6d7e4 22%,
-    #dbe6f4 34%,
-    #cfe0f2 44%,
-    #e6dcf3 54%,
-    #d7e4f4 64%,
-    #eed4e2 76%,
-    #f3cdd8 88%,
-    #eec1bf 100%
+    rgba(242, 193, 188, 1) 0%,
+    rgba(214, 207, 255, 0.2) 9%,
+    rgba(227, 190, 193, 0.84) 21%,
+    rgba(214, 207, 255, 0.6) 36%,
+    rgba(227, 131, 122, 0.53) 53%,
+    rgba(214, 207, 255, 0.5) 68%,
+    rgba(227, 131, 122, 1) 100%
   );
   overflow: hidden;
   /* Contain the canvas z-indexes so the fixed music button (and petals) are

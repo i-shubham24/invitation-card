@@ -5,6 +5,7 @@ import { submitRsvp } from '../lib/rsvpStore'
 const IC = {
   shagun: '/decor/ic-shagun.png', jaago: '/decor/ic-jaago.png',
   anand: '/decor/ic-anand.png', reception: '/decor/ic-reception.png',
+  sukhmani: '/decor/ic-anand.png', // Sikh prayer — reuse the gurudwara/prayer medallion
 }
 const mapUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
 const DONE_KEY = 'wedding-rsvp-done' // per-device: 'yes' | 'no'
