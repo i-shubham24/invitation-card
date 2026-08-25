@@ -24,7 +24,8 @@ const GOLD = '#c9a24a'
 const EXTRA = [
   {
     id: 'extra-celeb', kind: 'text', z: 210,
-    x: 20.56, y: 44.73, w: 64.25, h: 0.21,
+    x: 20.56, y: 40.677, w: 64.25, h: 0.191,
+    // y shifted with the taller canvas (Sukhmani card inserted below)
     text: 'A CELEBRATION OF LOVE, FAITH & FOREVER',
     font: 'Cinzel', size: 10, weight: 700, spacing: 1.2, align: 'CENTER', color: '#8b6e38',
   },
@@ -153,7 +154,7 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
         <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
       ))}
 
-      {scratch && <ScratchFig rect={{ x: 24, y: 5.45, w: 52, h: 1.5 }} />}
+      {scratch && <ScratchFig rect={{ x: 24, y: 4.957, w: 52, h: 1.364 }} />}
 
       {/* Inline countdown, in the empty space below "Until Our Forever Begins" */}
       {cdBox && (
@@ -163,8 +164,9 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
       )}
 
       {/* Form background — scalloped "3 curve hills" panel (replaces the flat
-          Figma ellipses/rect). Sits below the RSVP text + controls. */}
-      <ScallopPanel x={5.841} y={88.339} w={86.817} h={7.561} />
+          Figma ellipses/rect). Sits below the RSVP text + controls.
+          y/h shifted with the taller canvas (Sukhmani card inserted above). */}
+      <ScallopPanel x={5.841} y={89.395} w={86.817} h={6.876} />
 
       {/* Real form inside the Figma RSVP background */}
       <div className="fig__form">

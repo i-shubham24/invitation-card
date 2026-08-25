@@ -147,7 +147,7 @@
 .fig__form {
   position: absolute;
   left: 18%;
-  top: 90.05%; /* pulled up with the RSVP heading block to fill the cloud-top space */
+  top: 90.952%; /* shifted with the taller canvas (Sukhmani card inserted above) */
   width: 64%;
   z-index: 90; /* above the decorative frame image (z 86) */
 }
