@@ -127,13 +127,14 @@ function useScrollReveal(active) {
 }
 
 // Hero scratch box (Figma rect 683:2685 / 2697), buried "3 December, 2026".
-const SCRATCH_RECT = { x: 26.06, y: 5.576, w: 48.13, h: 1.366 }
-// Countdown — matched to the translucent box (node 683:2714, y 11.878–12.734%)
-// and nudged up so the cells sit vertically centred inside it, not below it.
-const CD_BOX = { x: 26.66, y: 12.12, w: 46.01 }
-// RSVP form region — aligned to the Figma name-input width, pulled up with the
-// heading block to fill the scallop panel's cloud-top space.
-const FORM_BOX = { x: 20.37, y: 88.65, w: 60.44 }
+// y/h shifted with the taller canvas (Sukhmani card inserted in the schedule).
+const SCRATCH_RECT = { x: 26.06, y: 5.068, w: 48.13, h: 1.241 }
+// Countdown — matched to the translucent box (node 683:2714), shifted with the
+// taller canvas, so the cells still sit vertically centred inside it.
+const CD_BOX = { x: 26.66, y: 11.014, w: 46.01 }
+// RSVP form region — aligned to the Figma name-input width; shifted down with
+// the taller canvas (Sukhmani card inserted above in the schedule).
+const FORM_BOX = { x: 20.37, y: 89.687, w: 60.44 }
 
 // RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30) — lifted up
 // with the form so the whole block fills the scallop panel's cloud-top space.
@@ -152,7 +153,7 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
       {/* Form background — scalloped "3 curve hills" panel, sized to end just
           below SEND RSVP with the single-column events; vbh scales with the
           height so the bumps keep their proportion (stay round). */}
-      <ScallopPanel x={5.526} y={86.991} w={85.992} h={5.55} vbh={935} />
+      <ScallopPanel x={5.526} y={88.177} w={85.992} h={5.044} vbh={935} />
 
       <ScratchFig rect={SCRATCH_RECT} date="3 December, 2026" />
 
