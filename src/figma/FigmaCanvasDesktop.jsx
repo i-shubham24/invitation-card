@@ -45,7 +45,9 @@ function Item({ it }) {
 
   if (it.kind === 'img') {
     const isBg = it.w > 96
-    const style = isBg ? { ...base, left: '-1%', width: '102%' } : base
+    const style = isBg
+      ? { ...base, left: '-1%', width: '102%' }
+      : { ...base, borderRadius: it.r ? cqw(it.r) : undefined } // round the schedule cards
     return (
       <img className="fig__img" src={it.src} alt="" aria-hidden draggable="false"
         loading={it.y < 12 ? 'eager' : 'lazy'} decoding="async" style={style} />

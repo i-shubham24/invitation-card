@@ -59,7 +59,9 @@ function Item({ it }) {
     // mobile). The inset event cards (~86% wide) and photos/florals keep their
     // exact Figma placement.
     const isBg = it.w > 92
-    const style = isBg ? { ...base, left: '-2%', width: '104%' } : base
+    const style = isBg
+      ? { ...base, left: '-2%', width: '104%' }
+      : { ...base, borderRadius: it.r ? cqw(it.r) : undefined } // round the schedule cards
     return (
       <img className="fig__img" src={it.src} alt="" aria-hidden draggable="false"
         loading={it.y < 18 ? 'eager' : 'lazy'} decoding="async" style={style} />
