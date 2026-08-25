@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { CANVAS, ITEMS } from './manifest'
+import { boostWeight, darken } from './textboost'
 import ScratchFig from './ScratchFig'
 import ScallopPanel from './ScallopPanel'
 import RsvpFormFig from './RsvpFormFig'
@@ -72,10 +73,10 @@ function Item({ it }) {
         style={{
           left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, zIndex: it.z,
           fontFamily: `'${it.font}', 'Cormorant Garamond', serif`,
-          fontSize: cqw(it.size), fontWeight: it.weight,
+          fontSize: cqw(it.size), fontWeight: boostWeight(it.weight),
           letterSpacing: it.spacing ? cqw(it.spacing) : 'normal',
           lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
-          color: it.color, textAlign: (it.align || 'left').toLowerCase(),
+          color: darken(it.color), textAlign: (it.align || 'left').toLowerCase(),
           // Short centred headings shouldn't wrap (keeps "SEPTEMBER 30, 2026" on one line)
           whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
         }}>
