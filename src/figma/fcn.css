@@ -51,27 +51,27 @@
   align-items: center;
   justify-content: center;
 }
-.fcn__cd .cd { display: flex; justify-content: center; gap: 2.4cqw; }
+.fcn__cd .cd { display: flex; justify-content: center; align-items: center; gap: 3cqw; }
 .fcn__cd .cd__cell {
   min-width: 0;
-  width: 15cqw;
-  padding: 1.4cqw 0.5cqw;
-  background: rgba(255, 253, 251, 0.7);
-  border: 1px solid rgba(201, 138, 118, 0.4);
-  border-radius: 2cqw;
+  width: 20cqw;
+  padding: 2cqw 1cqw;
+  background: rgba(255, 253, 251, 0.72);
+  border: 1px solid rgba(201, 138, 118, 0.45);
+  border-radius: 2.4cqw;
   text-align: center;
 }
 .fcn__cd .cd__num {
   font-family: 'Cormorant Garamond', serif; font-weight: 600;
-  font-size: 5cqw; line-height: 1; color: #a4574f;
+  font-size: 7.4cqw; line-height: 1; color: #a4574f;
   font-variant-numeric: tabular-nums; display: block;
 }
 .fcn__cd .cd__label {
-  display: block; margin-top: 0.5cqw;
-  font-family: 'Cormorant Garamond', serif; font-size: 1.6cqw;
-  letter-spacing: 0.3cqw; text-transform: uppercase; color: #8a5c52;
+  display: block; margin-top: 0.8cqw;
+  font-family: 'Cormorant Garamond', serif; font-size: 2.2cqw;
+  letter-spacing: 0.4cqw; text-transform: uppercase; color: #8a5c52;
 }
-.fcn__cd .cd__done { font-family: 'Great Vibes', cursive; font-size: 5cqw; color: #a4574f; margin: 0; }
+.fcn__cd .cd__done { font-family: 'Great Vibes', cursive; font-size: 7cqw; color: #a4574f; margin: 0; }
 
 /* Crop the OLD desktop canvas above its "SCHEDULE OF EVENTS" heading (the new
    board already covers hero -> "A CELEBRATION…"). Crop point = 40.75% of the
