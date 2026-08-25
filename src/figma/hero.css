@@ -74,6 +74,12 @@
 }
 .ndh__cdbox .cd__done { font-family: 'Great Vibes', cursive; font-size: 5cqw; color: #a4574f; margin: 0; }
 
+/* The scratch card sits in a smaller box relative to the 1440 hero, so the
+   default cqw date/label sizes overflow — scale them to fit (date ~Great Vibes
+   40 in the Figma). */
+.ndh .scratchfig__date { font-size: 2.4cqw; }
+.ndh .scratchfig__label { font-size: 1.1cqw; letter-spacing: 0.3cqw; }
+
 /* Crop the OLD desktop hero (top ~12.6% of the tall .figd canvas) so only the
    sections below it show under the new hero. margin-top is a % of width; the
    figure = 12.6% of height = 12.6 * (16833/1178) ≈ 180% of width. */
