@@ -20,6 +20,19 @@ export default function EnvelopeIntro({ onOpened }) {
   const [phase, setPhase] = useState('idle') // idle | opening | done
   const videoRef = useRef(null)
 
+  // iOS needs the video explicitly muted + inline at the DOM level (React's
+  // `muted` prop is unreliable, and older iOS wants `webkit-playsinline`).
+  // Without this, Safari rejects play() and the clip is skipped.
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    v.muted = true
+    v.defaultMuted = true
+    v.setAttribute('muted', '')
+    v.setAttribute('playsinline', '')
+    v.setAttribute('webkit-playsinline', 'true')
+  }, [])
+
   // Strict opening page: lock all scrolling of the site behind the envelope
   // until it's opened (nothing but the heart tap should do anything).
   useEffect(() => {
@@ -42,21 +55,23 @@ export default function EnvelopeIntro({ onOpened }) {
 
   function handleOpen() {
     if (phase !== 'idle') return
-    playMusic().catch(() => {}) // this tap is the gesture that lets sound play
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const v = videoRef.current
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (reduced || !v) {
+      playMusic().catch(() => {})
       finish()
       return
     }
+
+    // iOS: kick the video off FIRST, synchronously inside the tap, before any
+    // other media or async work — otherwise Safari rejects play() and the clip
+    // is skipped. Don't seek first (iOS hasn't buffered it and the seek fails).
+    v.muted = true
+    const p = v.play()
+    playMusic().catch(() => {}) // start the song in the same gesture
     setPhase('opening')
-    const v = videoRef.current
-    if (v) {
-      v.currentTime = 0
-      const p = v.play()
-      if (p && p.catch) p.catch(() => finish()) // autoplay blocked → just reveal
-    } else {
-      finish()
-    }
+    if (p && p.catch) p.catch(() => finish()) // genuinely blocked → reveal the site
   }
 
   // While opening: reveal the site as the clip ends, and guarantee we finish
