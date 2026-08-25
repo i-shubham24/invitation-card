@@ -16,9 +16,15 @@ import './EnvelopeIntro.css'
 const REVEAL_LEAD = 0.4 // start revealing the site this many seconds before the clip ends
 const SAFETY_MS = 9000 // hard cap: never strand the guest on the opening screen
 
+// Add ?vdebug to the URL to show an on-screen log of why the clip did / didn't
+// play (useful for diagnosing iOS Safari without a desktop debugger).
+const DEBUG = typeof location !== 'undefined' && /(\?|&)vdebug\b/.test(location.search)
+
 export default function EnvelopeIntro({ onOpened }) {
   const [phase, setPhase] = useState('idle') // idle | opening | done
+  const [diag, setDiag] = useState([])
   const videoRef = useRef(null)
+  const log = (m) => { if (DEBUG) setDiag((d) => [...d.slice(-14), `${(performance.now() / 1000).toFixed(1)}s · ${m}`]) }
 
   // iOS needs the video explicitly muted + inline at the DOM level (React's
   // `muted` prop is unreliable, and older iOS wants `webkit-playsinline`).
@@ -55,23 +61,33 @@ export default function EnvelopeIntro({ onOpened }) {
 
   function handleOpen() {
     if (phase !== 'idle') return
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const v = videoRef.current
+    playMusic().catch(() => {}) // this tap is the gesture that lets sound play
 
-    if (reduced || !v) {
-      playMusic().catch(() => {})
+    if (!v) {
       finish()
       return
     }
 
-    // iOS: kick the video off FIRST, synchronously inside the tap, before any
-    // other media or async work — otherwise Safari rejects play() and the clip
-    // is skipped. Don't seek first (iOS hasn't buffered it and the seek fails).
-    v.muted = true
-    const p = v.play()
-    playMusic().catch(() => {}) // start the song in the same gesture
+    // Always attempt the clip — do NOT skip it for prefers-reduced-motion, since
+    // many iPhones/iPads have Reduce Motion on and that was silently opening the
+    // site straight away.
+    log(`tap · reduced=${window.matchMedia('(prefers-reduced-motion: reduce)').matches} muted=${v.muted} ready=${v.readyState}`)
     setPhase('opening')
-    if (p && p.catch) p.catch(() => finish()) // genuinely blocked → reveal the site
+    v.muted = true // iOS: must be muted to start inline
+    const p = v.play()
+    if (p && p.then) {
+      p.then(() => log('play() resolved')).catch((e) => {
+        log(`play() rejected: ${e && e.name}`)
+        // Couldn't start on the tap. A muted, inline clip is allowed to start
+        // without a fresh gesture on iOS, so retry once it has buffered; only
+        // reveal the site if it genuinely never becomes playable.
+        const retry = () => { log('retry play()'); v.play().catch((e2) => log(`retry rejected: ${e2 && e2.name}`)) }
+        v.addEventListener('canplay', retry, { once: true })
+        v.addEventListener('loadeddata', retry, { once: true })
+        window.setTimeout(() => { if (v.paused) { log('still paused → reveal'); finish() } }, 2500)
+      })
+    }
   }
 
   // While opening: reveal the site as the clip ends, and guarantee we finish
@@ -83,15 +99,20 @@ export default function EnvelopeIntro({ onOpened }) {
       if (v.duration && v.currentTime >= v.duration - REVEAL_LEAD) finish()
     }
     const onEnd = () => finish()
-    const onError = () => finish()
+    const onError = () => { log(`video error code=${v.error && v.error.code}`); finish() }
+    const onPlaying = () => log(`playing (dur=${(v.duration || 0).toFixed?.(1)})`)
+    const onStalled = () => log('stalled')
     v.addEventListener('timeupdate', onTime)
     v.addEventListener('ended', onEnd)
     v.addEventListener('error', onError)
+    if (DEBUG) { v.addEventListener('playing', onPlaying); v.addEventListener('stalled', onStalled) }
     const safety = window.setTimeout(finish, SAFETY_MS)
     return () => {
       v.removeEventListener('timeupdate', onTime)
       v.removeEventListener('ended', onEnd)
       v.removeEventListener('error', onError)
+      v.removeEventListener('playing', onPlaying)
+      v.removeEventListener('stalled', onStalled)
       window.clearTimeout(safety)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,6 +149,17 @@ export default function EnvelopeIntro({ onOpened }) {
           </button>
         )}
       </div>
+
+      {DEBUG && (
+        <pre style={{
+          position: 'fixed', left: 0, right: 0, bottom: 0, margin: 0, zIndex: 9999,
+          maxHeight: '45vh', overflow: 'auto', padding: '8px 10px',
+          font: '11px/1.4 monospace', color: '#0f0', background: 'rgba(0,0,0,0.82)',
+          whiteSpace: 'pre-wrap', pointerEvents: 'none',
+        }}>
+          {diag.join('\n') || 'vdebug on — tap the heart…'}
+        </pre>
+      )}
     </div>
   )
 }
