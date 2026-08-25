@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import FigmaCanvas from '../figma/FigmaCanvas'
 import FigmaCanvasDesktop from '../figma/FigmaCanvasDesktop'
+import NewDesktopHero from '../figma/NewDesktopHero'
 import MusicPlayer from './MusicPlayer'
 import Petals from '../effects/Petals'
 
@@ -30,9 +31,16 @@ export default function InvitationCard({ onRsvpSaved, opened }) {
   const isDesktop = useIsDesktop()
   return (
     <div className="invite">
-      {isDesktop
-        ? <FigmaCanvasDesktop onRsvpSaved={onRsvpSaved} opened={opened} />
-        : <FigmaCanvas onRsvpSaved={onRsvpSaved} opened={opened} />}
+      {isDesktop ? (
+        <>
+          <NewDesktopHero />
+          <div className="figd-crop">
+            <FigmaCanvasDesktop onRsvpSaved={onRsvpSaved} opened={opened} />
+          </div>
+        </>
+      ) : (
+        <FigmaCanvas onRsvpSaved={onRsvpSaved} opened={opened} />
+      )}
       <Petals />
       <MusicPlayer />
     </div>
