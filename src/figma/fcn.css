@@ -1,0 +1,83 @@
+/* ===========================================================================
+   New wide (1440) desktop canvas — hero down to "A CELEBRATION OF LOVE, FAITH
+   & FOREVER". Full-width; text sized in cqw against this box. Sits above the
+   existing desktop canvas (whose matching top is cropped away).
+   =========================================================================== */
+.fcn {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  container-type: inline-size; /* cqw resolves against the board width */
+  overflow: hidden;
+  isolation: isolate;
+  /* pink -> soft lavender -> blush, ending on #f2c1bc so it blends into the
+     existing desktop canvas gradient below */
+  background: linear-gradient(
+    180deg,
+    #f2c1bc 0%,
+    rgba(214, 207, 255, 0.6) 20%,
+    rgba(227, 190, 193, 0.82) 52%,
+    #f2c1bc 100%
+  );
+}
+
+.fcn__img {
+  position: absolute;
+  object-fit: fill;
+  max-width: none; /* allow full-bleed backgrounds to exceed 100% */
+  user-select: none;
+}
+
+.fcn__text {
+  position: absolute;
+  white-space: pre-line;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scratch card: scale the date/label to fit the smaller box in the 1440 board */
+.fcn .scratchfig__date { font-size: 2.4cqw; }
+.fcn .scratchfig__label { font-size: 1.1cqw; letter-spacing: 0.3cqw; }
+
+/* Countdown overlaid on the pink Figma box (Rectangle 44) */
+.fcn__cd {
+  container-type: inline-size;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fcn__cd .cd { display: flex; justify-content: center; gap: 2.4cqw; }
+.fcn__cd .cd__cell {
+  min-width: 0;
+  width: 15cqw;
+  padding: 1.4cqw 0.5cqw;
+  background: rgba(255, 253, 251, 0.7);
+  border: 1px solid rgba(201, 138, 118, 0.4);
+  border-radius: 2cqw;
+  text-align: center;
+}
+.fcn__cd .cd__num {
+  font-family: 'Cormorant Garamond', serif; font-weight: 600;
+  font-size: 5cqw; line-height: 1; color: #a4574f;
+  font-variant-numeric: tabular-nums; display: block;
+}
+.fcn__cd .cd__label {
+  display: block; margin-top: 0.5cqw;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.6cqw;
+  letter-spacing: 0.3cqw; text-transform: uppercase; color: #8a5c52;
+}
+.fcn__cd .cd__done { font-family: 'Great Vibes', cursive; font-size: 5cqw; color: #a4574f; margin: 0; }
+
+/* Crop the OLD desktop canvas above its "SCHEDULE OF EVENTS" heading (the new
+   board already covers hero -> "A CELEBRATION…"). Crop point = 40.75% of the
+   tall .figd; as a % of width that's 40.75 * (16833/1178) ≈ 582.4%. */
+.figd-crop {
+  width: 100%;
+  overflow: hidden;
+}
+.figd-crop > .figd {
+  margin-top: -582.4%;
+}
