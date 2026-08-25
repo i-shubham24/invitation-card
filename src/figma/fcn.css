@@ -42,9 +42,11 @@
 .fcn .scratchfig__label { font-size: 1.1cqw; letter-spacing: 0.3cqw; }
 
 /* Countdown overlaid on the pink Figma box (Rectangle 44) */
+/* Above every manifest layer (max z ~84) so the pink box doesn't cover it. */
+.fcn .scratchfig { z-index: 200; }
 .fcn__cd {
   container-type: inline-size;
-  z-index: 30;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
