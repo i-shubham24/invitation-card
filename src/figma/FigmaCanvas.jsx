@@ -80,8 +80,9 @@ function Item({ it }) {
           lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
           color: textColor(it), textAlign: (it.align || 'left').toLowerCase(),
           textShadow: it.shadow || undefined,
-          // Short centred headings shouldn't wrap (keeps "SEPTEMBER 30, 2026" on one line)
-          whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
+          // Respect the designer's explicit line breaks only — never auto-wrap
+          // (bolder text was overflowing its box and wrapping to extra lines).
+          whiteSpace: it.text.includes('\n') ? 'pre' : 'nowrap',
         }}>
         {it.text}
       </div>

@@ -54,7 +54,9 @@ function Item({ it }) {
           lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
           color: textColor(it), textAlign: (it.align || 'left').toLowerCase(),
           textShadow: it.shadow || undefined,
-          whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
+          // Respect explicit line breaks only — never auto-wrap (bolder text
+          // was overflowing its box).
+          whiteSpace: it.text.includes('\n') ? 'pre' : 'nowrap',
         }}>
         {it.text}
       </div>
