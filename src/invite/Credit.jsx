@@ -1,13 +1,12 @@
 import './credit.css'
 
 /**
- * Footer credit — small "Made with ❤ by [Humble Solutions logo]" with flanking
- * flowers, linking to the studio. Kept small, on the same footer background.
+ * Footer credit — small "Made with ❤ by [Humble Solutions logo]" on a dark
+ * band, linking to the studio. (The flowers flank the date up in the footer.)
  */
 export default function Credit() {
   return (
     <div className="credit">
-      <img className="credit__flower" src="/credit/857_571.png" alt="" aria-hidden draggable="false" />
       <a
         className="credit__link"
         href="https://www.humblesolutions.in/"
@@ -22,7 +21,6 @@ export default function Credit() {
         </span>
         <img className="credit__logo" src="/credit/857_569.png" alt="Humble Solutions" draggable="false" />
       </a>
-      <img className="credit__flower credit__flower--r" src="/credit/857_572.png" alt="" aria-hidden draggable="false" />
     </div>
   )
 }

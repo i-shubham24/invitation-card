@@ -30,6 +30,9 @@ const EXTRA = [
     text: 'A CELEBRATION OF LOVE, FAITH & FOREVER',
     font: 'Cinzel', size: 10, weight: 700, spacing: 1.2, align: 'CENTER', color: '#8b6e38',
   },
+  // Flowers flanking the footer date "3rd December, 2026" (406:19 @ x39.7 y99.3)
+  { id: 'fl-date-l', kind: 'img', z: 200, x: 29.5, y: 99.08, w: 8.5, h: 0.55, src: '/credit/857_571.png', contain: true },
+  { id: 'fl-date-r', kind: 'img', z: 200, x: 62.5, y: 99.08, w: 8.5, h: 0.55, src: '/credit/857_572.png', contain: true, flip: true },
 ]
 
 // Footer texts: shown statically (no scroll reveal — they were firing too late).
@@ -61,7 +64,10 @@ function Item({ it }) {
     const isBg = it.w > 92
     const style = isBg
       ? { ...base, left: '-2%', width: '104%' }
-      : { ...base, borderRadius: it.r ? cqw(it.r) : undefined } // round the schedule cards
+      : { ...base,
+          borderRadius: it.r ? cqw(it.r) : undefined, // round the schedule cards
+          objectFit: it.contain ? 'contain' : undefined,
+          transform: it.flip ? 'scaleX(-1)' : undefined }
     return (
       <img className="fig__img" src={it.src} alt="" aria-hidden draggable="false"
         loading={it.y < 18 ? 'eager' : 'lazy'} decoding="async" style={style} />

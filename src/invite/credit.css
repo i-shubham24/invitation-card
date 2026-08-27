@@ -1,24 +1,17 @@
-/* Footer credit — small, flowers L/R + "Made with ❤ by [Humble Solutions]".
-   Sits on the same footer background as the text above it. */
+/* Footer credit — small "Made with ❤ by [Humble Solutions]" on a dark band. */
 .credit {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 2vw, 16px);
   width: 100%;
-  padding: 10px 12px calc(16px + env(safe-area-inset-bottom));
-  background: transparent; /* blend with the page's footer background */
+  padding: 6px 16px calc(16px + env(safe-area-inset-bottom));
+  margin-top: -1px; /* continue the canvas footer with no seam */
+  background: #e3837a; /* same as the canvas footer (its gradient bottom) */
 }
-.credit__flower {
-  width: clamp(26px, 6vw, 40px);
-  height: auto;
-  user-select: none;
-}
-.credit__flower--r { transform: scaleX(-1); }
 .credit__link {
   display: inline-flex;
   align-items: center;
-  gap: 0.4em;
+  gap: 0.5em;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -27,7 +20,7 @@
   font-weight: 600;
   font-size: clamp(12px, 2.6vw, 15px);
   letter-spacing: 0.02em;
-  color: #6f4e39;
+  color: #5a2e26;
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
@@ -35,7 +28,7 @@
 }
 .credit__heart { width: 1em; height: auto; vertical-align: middle; }
 .credit__logo {
-  height: clamp(16px, 3.4vw, 22px);
+  height: clamp(17px, 3.6vw, 24px);
   width: auto;
   transition: transform 0.2s ease;
 }
