@@ -19,3 +19,13 @@ export function darken(hex, f = 0.18) {
     .map((x) => Math.round(x * (1 - f)).toString(16).padStart(2, '0'))
   return '#' + ch.join('')
 }
+
+/** Final colour/weight for a manifest text item. Nodes flagged `exact` (the
+ *  designer's final styling) render their colour/weight as-is; everything else
+ *  gets the visibility boost (slightly bolder + darker). */
+export function textColor(it) {
+  return it && it.exact ? it.color : darken(it && it.color)
+}
+export function textWeight(it) {
+  return it && it.exact ? (Number(it.weight) || 700) : boostWeight(it && it.weight)
+}

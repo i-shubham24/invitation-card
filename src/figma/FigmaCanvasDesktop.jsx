@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { CANVAS_D, ITEMS_D } from './manifest.desktop'
-import { boostWeight, darken } from './textboost'
+import { textColor, textWeight } from './textboost'
 import ScratchFig from './ScratchFig'
 import ScallopPanel from './ScallopPanel'
 import RsvpFormFig from './RsvpFormFig'
@@ -64,10 +64,11 @@ function Item({ it }) {
         style={{
           left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, zIndex: it.z,
           fontFamily: `'${it.font}', 'Cormorant Garamond', serif`,
-          fontSize: cqw(it.size * fscale), fontWeight: boostWeight(it.weight),
+          fontSize: cqw(it.size * fscale), fontWeight: textWeight(it),
           letterSpacing: it.spacing ? cqw(it.spacing) : 'normal',
           lineHeight: it.lineh ? cqw(it.lineh * fscale) : 1.15,
-          color: darken(it.color), textAlign: (it.align || 'left').toLowerCase(),
+          color: textColor(it), textAlign: (it.align || 'left').toLowerCase(),
+          textShadow: it.shadow || undefined,
           whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
         }}>
         {it.text}

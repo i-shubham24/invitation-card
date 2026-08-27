@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { CANVAS, ITEMS } from './manifest'
-import { boostWeight, darken } from './textboost'
+import { textColor, textWeight } from './textboost'
 import ScratchFig from './ScratchFig'
 import ScallopPanel from './ScallopPanel'
 import RsvpFormFig from './RsvpFormFig'
@@ -24,7 +24,7 @@ const GOLD = '#c9a24a'
 // Text that lives outside frame 10 in Figma but belongs on the canvas.
 const EXTRA = [
   {
-    id: 'extra-celeb', kind: 'text', z: 210,
+    id: 'extra-celeb', kind: 'text', z: 210, exact: true,
     x: 20.56, y: 40.677, w: 64.25, h: 0.191,
     // y shifted with the taller canvas (Sukhmani card inserted below)
     text: 'A CELEBRATION OF LOVE, FAITH & FOREVER',
@@ -75,10 +75,11 @@ function Item({ it }) {
         style={{
           left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, zIndex: it.z,
           fontFamily: `'${it.font}', 'Cormorant Garamond', serif`,
-          fontSize: cqw(it.size), fontWeight: boostWeight(it.weight),
+          fontSize: cqw(it.size), fontWeight: textWeight(it),
           letterSpacing: it.spacing ? cqw(it.spacing) : 'normal',
           lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
-          color: darken(it.color), textAlign: (it.align || 'left').toLowerCase(),
+          color: textColor(it), textAlign: (it.align || 'left').toLowerCase(),
+          textShadow: it.shadow || undefined,
           // Short centred headings shouldn't wrap (keeps "SEPTEMBER 30, 2026" on one line)
           whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
         }}>

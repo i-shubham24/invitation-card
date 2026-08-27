@@ -246,8 +246,8 @@
   bottom: max(16px, env(safe-area-inset-bottom));
   right: 16px;
   z-index: 70;
-  width: 58px;
-  height: 58px;
+  width: 116px;
+  height: 116px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -255,7 +255,7 @@
   padding: 0;
   background: transparent;
   cursor: pointer;
-  filter: drop-shadow(0 6px 14px rgba(120, 70, 60, 0.35));
+  filter: drop-shadow(0 12px 28px rgba(120, 70, 60, 0.35));
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .music-btn:hover {
@@ -269,13 +269,13 @@
 /* Disc stays static; a tonearm rests on the record disc (left of the art) */
 .music-btn__arm {
   position: absolute;
-  top: 5px;
+  top: 10px;
   left: 60%;
-  width: 2.5px;
-  height: 30px;
-  border-radius: 2px;
+  width: 5px;
+  height: 60px;
+  border-radius: 4px;
   background: linear-gradient(#5a3f3a, #8a4c3f);
-  transform-origin: 50% 2px;
+  transform-origin: 50% 4px;
   transform: rotate(30deg);         /* rest: needle on the disc */
   transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -285,21 +285,21 @@
 .music-btn__arm::before {           /* pivot base */
   content: '';
   position: absolute;
-  top: -3px;
+  top: -6px;
   left: 50%;
   transform: translateX(-50%);
-  width: 8px;
-  height: 8px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: #c98a76;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Audiomack player panel — mounted always, expands above the button */
 .music-embed {
   position: fixed;
   right: 16px;
-  bottom: 84px;
+  bottom: 142px;
   z-index: 71;
   width: min(320px, 88vw);
   height: 0;
@@ -323,14 +323,14 @@
 }
 .music-btn__needle {           /* needle head at the arm tip, on the disc */
   position: absolute;
-  bottom: -2px;
+  bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 5px;
-  height: 5px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #a4574f;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 @keyframes vinyl-spin {
   to {

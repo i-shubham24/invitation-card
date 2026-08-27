@@ -1,5 +1,5 @@
 import { CANVAS_N, ITEMS_N } from './manifest.newdesktop'
-import { boostWeight, darken } from './textboost'
+import { textColor, textWeight } from './textboost'
 import ScratchFig from './ScratchFig'
 import Countdown from '../invite/Countdown'
 import './fcn.css'
@@ -18,6 +18,7 @@ const cqw = (px) => `${(px / DESIGN_W) * 100}cqw`
 // Figma nodes replaced by React components (skip generic render).
 const SKIP = new Set([
   '683:2685', '683:2697', '683:2696', '771:253', '771:249', // scratch -> ScratchFig
+  '771:256', // pink countdown box — keep only the countdown ("box is just a marking")
 ])
 
 // Scratch box (683:2685: x567 y677 w306 h133) and countdown box (771:256:
@@ -48,10 +49,11 @@ function Item({ it }) {
         style={{
           left: `${it.x}%`, top: `${it.y}%`, width: `${it.w}%`, zIndex: it.z,
           fontFamily: `'${it.font}', 'Cormorant Garamond', serif`,
-          fontSize: cqw(it.size), fontWeight: boostWeight(it.weight),
+          fontSize: cqw(it.size), fontWeight: textWeight(it),
           letterSpacing: it.spacing ? cqw(it.spacing) : 'normal',
           lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
-          color: darken(it.color), textAlign: (it.align || 'left').toLowerCase(),
+          color: textColor(it), textAlign: (it.align || 'left').toLowerCase(),
+          textShadow: it.shadow || undefined,
           whiteSpace: it.align === 'CENTER' && !it.text.includes('\n') ? 'nowrap' : 'pre-line',
         }}>
         {it.text}
