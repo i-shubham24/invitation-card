@@ -3,6 +3,7 @@ import FigmaCanvas from '../figma/FigmaCanvas'
 import FigmaCanvasDesktop from '../figma/FigmaCanvasDesktop'
 import FigmaCanvasNew from '../figma/FigmaCanvasNew'
 import MusicPlayer from './MusicPlayer'
+import Credit from './Credit'
 import Petals from '../effects/Petals'
 
 /** True on wide viewports — renders the desktop Figma layout (frame 11). */
@@ -41,6 +42,7 @@ export default function InvitationCard({ onRsvpSaved, opened }) {
       ) : (
         <FigmaCanvas onRsvpSaved={onRsvpSaved} opened={opened} />
       )}
+      <Credit />
       <Petals />
       <MusicPlayer />
     </div>
