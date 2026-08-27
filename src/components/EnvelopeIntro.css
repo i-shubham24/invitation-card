@@ -53,6 +53,18 @@
   }
 }
 
+/* Desktop opens with the wide "card opens upward" clip (1280x720). Contain it
+   as a 16:9 card on the blush field; the clip's own first frame is the idle
+   image (the portrait poster/clip aren't used here). */
+.env2--wide .env2__stage {
+  width: min(94vw, calc((100dvh - 6vh) * 1280 / 720));
+  height: auto;
+  aspect-ratio: 1280 / 720;
+}
+.env2--wide .env2__poster { display: none; }
+.env2--wide .env2__video { opacity: 1; }
+.env2--wide .env2__heart { top: 50%; }
+
 /* Poster and video share the stage exactly, so the seal stays put. */
 .env2__poster,
 .env2__video {

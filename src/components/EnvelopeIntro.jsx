@@ -14,13 +14,28 @@ import './EnvelopeIntro.css'
  * the site rather than getting stuck.
  */
 const REVEAL_LEAD = 0.4 // start revealing the site this many seconds before the clip ends
-const SAFETY_MS = 9000 // hard cap: never strand the guest on the opening screen
+const SAFETY_MS = 11000 // hard cap: never strand the guest on the opening screen (desktop clip is ~10s)
+
+// Desktops (>= 1024px) open with a wide "card opens upward" clip; phones/tablets
+// keep the portrait clip. Keyed on width, matching InvitationCard's breakpoint.
+const DESKTOP_Q = '(min-width: 1024px)'
+function useIsDesktop() {
+  const [d, setD] = useState(() => typeof window !== 'undefined' && window.matchMedia(DESKTOP_Q).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_Q)
+    const on = () => setD(mq.matches)
+    mq.addEventListener('change', on)
+    return () => mq.removeEventListener('change', on)
+  }, [])
+  return d
+}
 
 // Add ?vdebug to the URL to show an on-screen log of why the clip did / didn't
 // play (useful for diagnosing iOS Safari without a desktop debugger).
 const DEBUG = typeof location !== 'undefined' && /(\?|&)vdebug\b/.test(location.search)
 
 export default function EnvelopeIntro({ onOpened }) {
+  const isDesktop = useIsDesktop()
   const [phase, setPhase] = useState('idle') // idle | opening | done
   const [diag, setDiag] = useState([])
   const videoRef = useRef(null)
@@ -119,7 +134,7 @@ export default function EnvelopeIntro({ onOpened }) {
   }, [phase])
 
   return (
-    <div className={`env2 env2--${phase}`} aria-hidden={phase === 'done'}>
+    <div className={`env2 env2--${phase}${isDesktop ? ' env2--wide' : ''}`} aria-hidden={phase === 'done'}>
       <div className="env2__stage">
         <img
           className="env2__poster"
@@ -130,8 +145,8 @@ export default function EnvelopeIntro({ onOpened }) {
         <video
           ref={videoRef}
           className="env2__video"
-          src="/media/opening_short.mp4"
-          poster="/media/poster.jpg"
+          src={isDesktop ? '/media/opening_desktop.mp4' : '/media/opening_short.mp4'}
+          poster={isDesktop ? undefined : '/media/poster.jpg'}
           playsInline
           muted
           preload="auto"
