@@ -12,7 +12,7 @@ const SESSION_KEY = 'wed-admin-auth'
 const EVENT_NAME = Object.fromEntries(EVENTS.map((e) => [e.id, e.name]))
 
 function toCSV(rows) {
-  const head = ['Name', 'Attending', 'Guests', 'Events', 'Contact', 'When']
+  const head = ['Name', 'Attending', 'Guests', 'Events', 'Message', 'Contact', 'When']
   const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
   const lines = rows.map((r) =>
     [
@@ -20,6 +20,7 @@ function toCSV(rows) {
       r.attending ? 'Yes' : 'No',
       r.guests ?? 0,
       (r.events || []).map((id) => EVENT_NAME[id] || id).join('; '),
+      r.message || '',
       r.contact || '',
       r.created_at ? new Date(r.created_at).toLocaleString() : '',
     ]
@@ -126,16 +127,17 @@ function Dashboard({ onLogout }) {
         <div className="adm__tablewrap">
           <table className="adm__table">
             <thead>
-              <tr><th>#</th><th>Name</th><th>Attending</th><th>Guests</th><th>Events</th><th>When</th></tr>
+              <tr><th>#</th><th>Name</th><th>Attending</th><th>Guests</th><th>Events</th><th>Message</th><th>When</th></tr>
             </thead>
             <tbody>
               {rows.map((r, i) => (
                 <tr key={r.id || i} className={r.attending ? '' : 'is-no'}>
                   <td>{i + 1}</td>
                   <td>{r.name}</td>
-                  <td>{r.attending ? '✅ Yes' : '❌ No'}</td>
+                  <td>{r.attending === true ? '✅ Yes' : r.attending === false ? '❌ No' : '💛 Wish'}</td>
                   <td>{r.attending ? r.guests : '—'}</td>
                   <td>{(r.events || []).map((id) => EVENT_NAME[id] || id).join(', ') || '—'}</td>
+                  <td className="adm__msg">{r.message || '—'}</td>
                   <td>{r.created_at ? new Date(r.created_at).toLocaleString() : '—'}</td>
                 </tr>
               ))}

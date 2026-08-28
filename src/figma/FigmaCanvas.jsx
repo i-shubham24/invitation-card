@@ -4,6 +4,7 @@ import { textColor, textWeight } from './textboost'
 import ScratchFig from './ScratchFig'
 import ScallopPanel from './ScallopPanel'
 import RsvpFormFig from './RsvpFormFig'
+import NoteCard from './NoteCard'
 import Countdown from '../invite/Countdown'
 import './fig.css'
 
@@ -25,19 +26,22 @@ const GOLD = '#c9a24a'
 const EXTRA = [
   {
     id: 'extra-celeb', kind: 'text', z: 210, exact: true,
-    x: 20.56, y: 39.165, w: 64.25, h: 0.184,
+    x: 20.56, y: 39.768, w: 64.25, h: 0.182,
     // y shifted with the taller canvas (Sukhmani card inserted below)
     text: 'A CELEBRATION OF LOVE, FAITH & FOREVER',
     font: 'Cinzel', size: 10, weight: 700, spacing: 1.2, align: 'CENTER', color: '#8b6e38',
   }, // y/h below rescaled for the taller (6993) canvas
   // Punjabi shabad (Anand Karaj verse) at the very top, above the names.
-  { id: 'punjabi', kind: 'img', z: 190, x: 26, y: 2.619, w: 48, h: 0.982, src: '/figma/punjabi.png', contain: true },
-  // "A Few Words to Treasure" note card — sits in the new empty canvas space
-  // opened up below the reception, above the (shifted-down) RSVP form section.
-  { id: 'note-card', kind: 'img', z: 88, x: 4.5, y: 83.96, w: 91, h: 3.15, src: '/figma/note-card.png' },
+  { id: 'punjabi', kind: 'img', z: 190, x: 26, y: 2.593, w: 48, h: 0.972, src: '/figma/punjabi.png', contain: true },
+  
+  // Decorative images from Figma for the Note section
+  { id: 'msg1', kind: 'img', z: 89, x: -5, y: 81.9, w: 65, h: 6.5, src: '/figma/msg1.png', contain: true },
+  { id: 'msg3', kind: 'img', z: 89, x: 5, y: 81.2, w: 90, h: 7.6, src: '/figma/msg3.png', contain: true },
+  { id: 'msg2', kind: 'img', z: 89, x: 10, y: 81.4, w: 92, h: 9.2, src: '/figma/msg2.png', contain: true },
+  
   // Flowers flanking the footer date "3rd December, 2026" (406:19 @ x39.7 y99.3)
-  { id: 'fl-date-l', kind: 'img', z: 200, x: 29.5, y: 99.13, w: 8.5, h: 0.53, src: '/credit/857_571.png', contain: true },
-  { id: 'fl-date-r', kind: 'img', z: 200, x: 62.5, y: 99.13, w: 8.5, h: 0.53, src: '/credit/857_572.png', contain: true, flip: true },
+  { id: 'fl-date-l', kind: 'img', z: 200, x: 29.5, y: 99.138, w: 8.5, h: 0.525, src: '/credit/857_571.png', contain: true },
+  { id: 'fl-date-r', kind: 'img', z: 200, x: 62.5, y: 99.138, w: 8.5, h: 0.525, src: '/credit/857_572.png', contain: true, flip: true },
 ]
 
 // Footer texts: shown statically (no scroll reveal — they were firing too late).
@@ -170,7 +174,7 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
         <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
       ))}
 
-      {scratch && <ScratchFig rect={{ x: 24, y: 5.439, w: 52, h: 1.313 }} />}
+      {scratch && <ScratchFig rect={{ x: 24, y: 5.385, w: 52, h: 1.300 }} />}
 
       {/* Inline countdown, in the empty space below "Until Our Forever Begins" */}
       {cdBox && (
@@ -182,7 +186,11 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
       {/* Form background — scalloped "3 curve hills" panel (replaces the flat
           Figma ellipses/rect). Sits below the RSVP text + controls.
           y/h shifted with the taller canvas (Sukhmani card inserted above). */}
-      <ScallopPanel x={5.841} y={89.553} w={86.817} h={6.855} />
+      <ScallopPanel x={5.841} y={89.656} w={86.817} h={6.787} />
+
+  
+      {/* Inputs laid over the "A Few Words to Treasure" note card */}
+      <NoteCard />
 
       {/* Real form inside the Figma RSVP background */}
       <div className="fig__form">
