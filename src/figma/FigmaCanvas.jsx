@@ -30,6 +30,8 @@ const EXTRA = [
     text: 'A CELEBRATION OF LOVE, FAITH & FOREVER',
     font: 'Cinzel', size: 10, weight: 700, spacing: 1.2, align: 'CENTER', color: '#8b6e38',
   },
+  // Punjabi shabad (Anand Karaj verse) at the very top, above the names.
+  { id: 'punjabi', kind: 'img', z: 190, x: 26, y: 2.72, w: 48, h: 1.02, src: '/figma/punjabi.png', contain: true },
   // Flowers flanking the footer date "3rd December, 2026" (406:19 @ x39.7 y99.3)
   { id: 'fl-date-l', kind: 'img', z: 200, x: 29.5, y: 99.08, w: 8.5, h: 0.55, src: '/credit/857_571.png', contain: true },
   { id: 'fl-date-r', kind: 'img', z: 200, x: 62.5, y: 99.08, w: 8.5, h: 0.55, src: '/credit/857_572.png', contain: true, flip: true },
@@ -40,7 +42,7 @@ const NO_REVEAL = new Set(['406:16', '406:17', '406:18', '406:19'])
 
 // RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30) — lifted up
 // with the form so the whole block fills the scallop panel's cloud-top space.
-const RSVP_LIFT = 0.3
+const RSVP_LIFT = 0.2
 const RSVP_HEAD = new Set(['329:37', '406:13', '406:14', '406:15'])
 
 function variantFor(it) {
@@ -165,7 +167,7 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
         <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
       ))}
 
-      {scratch && <ScratchFig rect={{ x: 24, y: 4.957, w: 52, h: 1.364 }} />}
+      {scratch && <ScratchFig rect={{ x: 24, y: 5.649, w: 52, h: 1.364 }} />}
 
       {/* Inline countdown, in the empty space below "Until Our Forever Begins" */}
       {cdBox && (
@@ -177,7 +179,7 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
       {/* Form background — scalloped "3 curve hills" panel (replaces the flat
           Figma ellipses/rect). Sits below the RSVP text + controls.
           y/h shifted with the taller canvas (Sukhmani card inserted above). */}
-      <ScallopPanel x={5.841} y={89.395} w={86.817} h={6.876} />
+      <ScallopPanel x={5.841} y={89.15} w={86.817} h={7.12} />
 
       {/* Real form inside the Figma RSVP background */}
       <div className="fig__form">
