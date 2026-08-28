@@ -53,13 +53,16 @@
   }
 }
 
-/* Desktop opens with the wide "card opens upward" clip (1280x720). Contain it
-   as a 16:9 card on the blush field; the clip's own first frame is the idle
-   image (the portrait poster/clip aren't used here). */
+/* The wide "card opens upward" clip (1280x720) fills the screen — zoom-and-fit
+   (cover), no blush margins — at any width >=461px. The stage stays 16:9 and is
+   sized to always cover the viewport; the excess overflows equally and is
+   clipped (centred). The clip's own first frame is the idle image. */
 .env2--wide .env2__stage {
-  width: min(94vw, calc((100dvh - 6vh) * 1280 / 720));
-  height: auto;
-  aspect-ratio: 1280 / 720;
+  width: max(100vw, calc(100dvh * 1280 / 720));
+  height: max(100dvh, calc(100vw * 720 / 1280));
+  aspect-ratio: auto;
+  box-shadow: none;
+  border-radius: 0;
 }
 .env2--wide .env2__poster { display: none; }
 .env2--wide .env2__video { opacity: 1; }

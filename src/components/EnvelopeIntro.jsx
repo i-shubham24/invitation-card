@@ -16,13 +16,14 @@ import './EnvelopeIntro.css'
 const REVEAL_LEAD = 0.4 // start revealing the site this many seconds before the clip ends
 const SAFETY_MS = 11000 // hard cap: never strand the guest on the opening screen (desktop clip is ~10s)
 
-// Desktops (>= 1024px) open with a wide "card opens upward" clip; phones/tablets
-// keep the portrait clip. Keyed on width, matching InvitationCard's breakpoint.
-const DESKTOP_Q = '(min-width: 1024px)'
-function useIsDesktop() {
-  const [d, setD] = useState(() => typeof window !== 'undefined' && window.matchMedia(DESKTOP_Q).matches)
+// The wide "card opens upward" clip is used from 461px up (tablets + laptops);
+// only small phones (<=460px) keep the portrait clip.
+const WIDE_Q = '(min-width: 461px)'
+const WIDE_RATE = 1.7 // play the wide clip faster — the card lifts up more briskly
+function useWideClip() {
+  const [d, setD] = useState(() => typeof window !== 'undefined' && window.matchMedia(WIDE_Q).matches)
   useEffect(() => {
-    const mq = window.matchMedia(DESKTOP_Q)
+    const mq = window.matchMedia(WIDE_Q)
     const on = () => setD(mq.matches)
     mq.addEventListener('change', on)
     return () => mq.removeEventListener('change', on)
@@ -35,7 +36,7 @@ function useIsDesktop() {
 const DEBUG = typeof location !== 'undefined' && /(\?|&)vdebug\b/.test(location.search)
 
 export default function EnvelopeIntro({ onOpened }) {
-  const isDesktop = useIsDesktop()
+  const wide = useWideClip()
   const [phase, setPhase] = useState('idle') // idle | opening | done
   const [diag, setDiag] = useState([])
   const videoRef = useRef(null)
@@ -90,6 +91,7 @@ export default function EnvelopeIntro({ onOpened }) {
     log(`tap · reduced=${window.matchMedia('(prefers-reduced-motion: reduce)').matches} muted=${v.muted} ready=${v.readyState}`)
     setPhase('opening')
     v.muted = true // iOS: must be muted to start inline
+    v.playbackRate = wide ? WIDE_RATE : 1 // lift the card up more briskly on the wide clip
     const p = v.play()
     if (p && p.then) {
       p.then(() => log('play() resolved')).catch((e) => {
@@ -134,7 +136,7 @@ export default function EnvelopeIntro({ onOpened }) {
   }, [phase])
 
   return (
-    <div className={`env2 env2--${phase}${isDesktop ? ' env2--wide' : ''}`} aria-hidden={phase === 'done'}>
+    <div className={`env2 env2--${phase}${wide ? ' env2--wide' : ''}`} aria-hidden={phase === 'done'}>
       <div className="env2__stage">
         <img
           className="env2__poster"
@@ -145,8 +147,8 @@ export default function EnvelopeIntro({ onOpened }) {
         <video
           ref={videoRef}
           className="env2__video"
-          src={isDesktop ? '/media/opening_desktop.mp4' : '/media/opening_short.mp4'}
-          poster={isDesktop ? undefined : '/media/poster.jpg'}
+          src={wide ? '/media/opening_desktop.mp4' : '/media/opening_short.mp4'}
+          poster={wide ? undefined : '/media/poster.jpg'}
           playsInline
           muted
           preload="auto"
