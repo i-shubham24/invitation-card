@@ -9,7 +9,7 @@ create table if not exists public.rsvps (
   created_at  timestamptz not null default now(),
   name        text        not null,
   contact     text,
-  attending   boolean     not null default true,
+  attending   boolean,
   guests      integer     not null default 1,
   events      text[]      not null default '{}',
   message     text

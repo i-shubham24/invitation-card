@@ -15,7 +15,7 @@
 const URL_BASE = import.meta.env.VITE_SUPABASE_URL
 const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 const TABLE = 'rsvps'
-const LOCAL_KEY = 'wedding-rsvps'
+const LOCAL_KEY = 'wedding-rsvps-v2'
 
 export const isRemote = Boolean(URL_BASE && ANON_KEY)
 

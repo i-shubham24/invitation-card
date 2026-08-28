@@ -243,6 +243,10 @@
 }
 .rff__input::placeholder { color: #8a5346; }
 .rff__input:focus { outline: none; background: #f0d0c6; box-shadow: 0 0 0 0.6cqw rgba(201, 138, 118, 0.3); }
+textarea.rff__input {
+  border-radius: 3cqw;
+  padding: 2cqw 3cqw;
+}
 
 .rff__attend { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4cqw; }
 .rff__pill {

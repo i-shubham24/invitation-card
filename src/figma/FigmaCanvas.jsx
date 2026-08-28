@@ -33,12 +33,12 @@ const EXTRA = [
   }, // y/h below rescaled for the taller (6993) canvas
   // Punjabi shabad (Anand Karaj verse) at the very top, above the names.
   { id: 'punjabi', kind: 'img', z: 190, x: 26, y: 2.593, w: 48, h: 0.972, src: '/figma/punjabi.png', contain: true },
-  
+
   // Decorative images from Figma for the Note section
   { id: 'msg1', kind: 'img', z: 89, x: -5, y: 81.9, w: 65, h: 6.5, src: '/figma/msg1.png', contain: true },
   { id: 'msg3', kind: 'img', z: 89, x: 5, y: 81.2, w: 90, h: 7.6, src: '/figma/msg3.png', contain: true },
   { id: 'msg2', kind: 'img', z: 89, x: 10, y: 81.4, w: 92, h: 9.2, src: '/figma/msg2.png', contain: true },
-  
+
   // Flowers flanking the footer date "3rd December, 2026" (406:19 @ x39.7 y99.3)
   { id: 'fl-date-l', kind: 'img', z: 200, x: 29.5, y: 99.138, w: 8.5, h: 0.525, src: '/credit/857_571.png', contain: true },
   { id: 'fl-date-r', kind: 'img', z: 200, x: 62.5, y: 99.138, w: 8.5, h: 0.525, src: '/credit/857_572.png', contain: true, flip: true },
@@ -47,9 +47,7 @@ const EXTRA = [
 // Footer texts: shown statically (no scroll reveal — they were firing too late).
 const NO_REVEAL = new Set(['406:16', '406:17', '406:18', '406:19'])
 
-// RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30) — lifted up
-// with the form so the whole block fills the scallop panel's cloud-top space.
-const RSVP_LIFT = 0.2
+// RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30)
 const RSVP_HEAD = new Set(['329:37', '406:13', '406:14', '406:15'])
 
 function variantFor(it) {
@@ -95,7 +93,7 @@ function Item({ it }) {
           lineHeight: it.lineh ? cqw(it.lineh) : 1.15,
           color: textColor(it), textAlign: (it.align || 'left').toLowerCase(),
           textShadow: it.shadow || undefined,
-          // Respect the designer's explicit line breaks only — never auto-wrap
+          // Respect the designer's explicit line breaks only ? never auto-wrap
           // (bolder text was overflowing its box and wrapping to extra lines).
           whiteSpace: it.text.includes('\n') ? 'pre' : 'nowrap',
         }}>
@@ -171,7 +169,7 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
   return (
     <div className="fig" style={{ aspectRatio: `${CANVAS.w} / ${CANVAS.h}` }}>
       {[...ITEMS.filter((it) => !SKIP.has(it.id)), ...EXTRA].map((it) => (
-        <Item key={it.id} it={RSVP_HEAD.has(it.id) ? { ...it, y: it.y - RSVP_LIFT } : it} />
+        <Item key={it.id} it={it} />
       ))}
 
       {scratch && <ScratchFig rect={{ x: 24, y: 5.385, w: 52, h: 1.300 }} />}
@@ -188,7 +186,6 @@ export default function FigmaCanvas({ onRsvpSaved, opened }) {
           y/h shifted with the taller canvas (Sukhmani card inserted above). */}
       <ScallopPanel x={5.841} y={89.656} w={86.817} h={6.787} />
 
-  
       {/* Inputs laid over the "A Few Words to Treasure" note card */}
       <NoteCard />
 

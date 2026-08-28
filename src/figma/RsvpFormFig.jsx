@@ -17,7 +17,7 @@ const IC_FIX = {
   sukhmani: 'translate(-13.9%, -17.6%) scale(1.323)', // reuses ic-anand
 }
 const mapUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
-const DONE_KEY = 'wedding-rsvp-done' // per-device: 'yes' | 'no'
+const DONE_KEY = 'wedding-rsvp-done-v2' // per-device: 'yes' | 'no'
 
 function Confirmation({ attending }) {
   return (

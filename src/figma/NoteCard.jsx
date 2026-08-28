@@ -3,7 +3,7 @@ import { submitRsvp } from '../lib/rsvpStore'
 
 const DONE_KEY = 'wedding-note-done'
 
-export default function NoteCard() {
+export default function NoteCard({ style }) {
   const [name, setName] = useState('')
   const [blessing, setBlessing] = useState('')
   const [done, setDone] = useState(
@@ -23,7 +23,7 @@ export default function NoteCard() {
   }
 
   return (
-    <div className="fig__note">
+    <div className="fig__note" style={style}>
       {/* The Interactive Form */}
       {done ? (
         <div className="note__thanks">Thank you for your blessing ♥</div>
