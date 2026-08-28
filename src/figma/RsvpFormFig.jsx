@@ -7,6 +7,15 @@ const IC = {
   anand: '/decor/ic-anand.png', reception: '/decor/ic-reception.png',
   sukhmani: '/decor/ic-anand.png', // Sikh prayer — reuse the gurudwara/prayer medallion
 }
+// Per-icon normalization so every medallion renders the same size and centered
+// (the source art has different scale/offset baked in; measured + corrected).
+const IC_FIX = {
+  shagun: 'scale(0.936)',
+  jaago: 'scale(0.936)',
+  anand: 'translate(-13.9%, -17.6%) scale(1.323)',
+  reception: 'scale(0.936)',
+  sukhmani: 'translate(-13.9%, -17.6%) scale(1.323)', // reuses ic-anand
+}
 const mapUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
 const DONE_KEY = 'wedding-rsvp-done' // per-device: 'yes' | 'no'
 
@@ -104,7 +113,7 @@ export default function RsvpFormFig({ onSaved }) {
               return (
                 <div key={ev.id} className={`rff__event ${on ? 'on' : ''}`}>
                   <button type="button" className="rff__eventmain" onClick={() => toggle(ev.id)} aria-pressed={on}>
-                    <img src={IC[ev.id]} alt="" aria-hidden />
+                    <img src={IC[ev.id]} alt="" aria-hidden style={{ transform: IC_FIX[ev.id] }} />
                     <span className="rff__eventtext">
                       <strong>{ev.name}</strong>
                       <em>📍 {ev.venue}</em>
