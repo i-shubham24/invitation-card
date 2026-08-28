@@ -68,7 +68,7 @@ function Item({ it }) {
     // Full-width section backgrounds bleed to the site edges (no side gaps on
     // mobile). The inset event cards (~86% wide) and photos/florals keep their
     // exact Figma placement.
-    const isBg = it.w > 92
+    const isBg = it.w > 92 && !it.noBg
     const style = isBg
       ? { ...base, left: it.bleedL || '-2%', width: it.bleedW || '104%' }
       : { ...base,
