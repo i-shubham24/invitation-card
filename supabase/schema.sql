@@ -31,5 +31,19 @@ create policy "anon can read rsvp"
   to anon
   using (true);
 
+-- Allow the site to merge a guest's RSVP + blessing into their existing row,
+-- and the admin's "Clear all" to remove entries.
+drop policy if exists "anon can update rsvp" on public.rsvps;
+create policy "anon can update rsvp"
+  on public.rsvps for update
+  to anon
+  using (true) with check (true);
+
+drop policy if exists "anon can delete rsvp" on public.rsvps;
+create policy "anon can delete rsvp"
+  on public.rsvps for delete
+  to anon
+  using (true);
+
 create index if not exists rsvps_created_at_idx
   on public.rsvps (created_at desc);

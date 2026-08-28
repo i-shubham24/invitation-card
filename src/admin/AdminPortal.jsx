@@ -11,6 +11,26 @@ const SESSION_KEY = 'wed-admin-auth'
 
 const EVENT_NAME = Object.fromEntries(EVENTS.map((e) => [e.id, e.name]))
 
+// Collapse a guest's separate submissions (RSVP details + blessing message)
+// into one row, matched by name ignoring case/extra spaces. Works even if the
+// two arrived as separate DB rows (the API can't UPDATE, so they may be).
+const normName = (n) => String(n || '').trim().toLowerCase().replace(/\s+/g, ' ')
+function mergeByName(rows) {
+  const map = new Map()
+  for (const r of rows || []) {
+    const k = normName(r.name)
+    const cur = map.get(k)
+    if (!cur) { map.set(k, { ...r }); continue }
+    if (cur.attending == null && r.attending != null) {
+      cur.attending = r.attending; cur.guests = r.guests; cur.events = r.events
+    }
+    if (!cur.message && r.message) cur.message = r.message
+    if (!cur.contact && r.contact) cur.contact = r.contact
+    if (r.created_at && (!cur.created_at || r.created_at < cur.created_at)) cur.created_at = r.created_at
+  }
+  return [...map.values()].sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')))
+}
+
 function toCSV(rows) {
   const head = ['Name', 'Attending', 'Guests', 'Events', 'Message', 'Contact', 'When']
   const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
@@ -61,7 +81,7 @@ function Dashboard({ onLogout }) {
   async function load() {
     setError('')
     try {
-      setRows(await fetchAllRsvps())
+      setRows(mergeByName(await fetchAllRsvps()))
     } catch (e) {
       setError(e.message || 'Failed to load')
       setRows([])
