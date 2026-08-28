@@ -34,9 +34,9 @@
 .fig__formbg {
   position: absolute;
   left: 15%;
-  top: 89.85%;
+  top: 90.227%;
   width: 70%;
-  height: 5.85%;
+  height: 5.633%;
   z-index: 50;
   /* deeper, more opaque backing so the form reads clearly over the artwork */
   background: rgba(240, 214, 204, 0.82);
@@ -146,7 +146,7 @@
 .fig__form {
   position: absolute;
   left: 18%;
-  top: 90.952%; /* shifted with the taller canvas (Sukhmani card inserted above) */
+  top: 91.29%; /* canvas expanded (6993): form section rescaled + shifted below the note card */
   width: 64%;
   z-index: 90; /* above the decorative frame image (z 86) */
 }

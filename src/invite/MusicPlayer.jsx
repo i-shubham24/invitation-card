@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { toggleMusic, isMusicPlaying, onMusicChange } from '../lib/music'
 
 /**
- * MusicPlayer — vinyl button bound to the shared "Jogi" audio element (started
+ * MusicPlayer — vinyl button bound to the shared song audio element (started
  * on the envelope's heart-tap). Tap to pause/resume. Static disc; the tonearm
  * needle tracks in while playing.
  */

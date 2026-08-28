@@ -4,7 +4,7 @@ import './EnvelopeIntro.css'
 
 /**
  * EnvelopeIntro — the sealed invitation. Shows the poster with a pulsing heart;
- * tapping the heart starts "Jogi" and plays the "opens upward" clip, then
+ * tapping the heart starts the song and plays the "opens upward" clip, then
  * cross-fades the site out of the opened envelope.
  *
  * The clip and poster share one responsive stage that always COVERS the screen
