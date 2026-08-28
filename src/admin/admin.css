@@ -61,6 +61,8 @@
 .adm__actions button:hover { background: #fbeee9; }
 .adm__actions button:disabled { opacity: 0.5; cursor: not-allowed; }
 .adm__logout { color: #a4574f; }
+.adm__danger { color: #b3261e; border-color: #e6b4b0 !important; }
+.adm__danger:hover:not(:disabled) { background: #fbe9e7 !important; }
 .adm__note {
   margin: 14px 0 0; padding: 10px 14px; border-radius: 10px;
   background: #fff6e9; border: 1px solid #f0d9a8; color: #8a6a2e; font-size: 0.82rem;

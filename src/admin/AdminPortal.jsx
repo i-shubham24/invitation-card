@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { fetchAllRsvps, isRemote } from '../lib/rsvpStore'
+import { fetchAllRsvps, deleteAllRsvps, isRemote } from '../lib/rsvpStore'
 import { EVENTS } from '../invite/layout'
 import './admin.css'
 
@@ -80,6 +80,17 @@ function Dashboard({ onLogout }) {
     return { total: r.length, yes: attending.length, no: r.length - attending.length, guests, perEvent }
   }, [rows])
 
+  async function clearAll() {
+    if (!window.confirm('Delete ALL responses? This cannot be undone (use it to clear test entries).')) return
+    setError('')
+    try {
+      await deleteAllRsvps()
+      await load()
+    } catch (e) {
+      setError(e.message || 'Failed to clear')
+    }
+  }
+
   function download() {
     const blob = new Blob([toCSV(rows || [])], { type: 'text/csv;charset=utf-8;' })
     const url = URL.createObjectURL(blob)
@@ -97,6 +108,7 @@ function Dashboard({ onLogout }) {
         <div className="adm__actions">
           <button onClick={load}>↻ Refresh</button>
           <button onClick={download} disabled={!rows || !rows.length}>⤓ Export CSV</button>
+          <button className="adm__danger" onClick={clearAll} disabled={!rows || !rows.length}>🗑 Clear all</button>
           <button className="adm__logout" onClick={onLogout}>Sign out</button>
         </div>
       </header>
