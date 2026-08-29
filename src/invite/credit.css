@@ -34,3 +34,9 @@
 }
 .credit__link:hover .credit__logo,
 .credit__link:focus-visible .credit__logo { transform: scale(1.06); }
+
+/* Tablets / iPads (touch, >=768px) — a little bigger so it reads well. */
+@media (min-width: 768px) and (pointer: coarse) {
+  .credit__made { font-size: clamp(27px, 3.4vw, 32px); }
+  .credit__logo { height: clamp(30px, 4vw, 36px); }
+}

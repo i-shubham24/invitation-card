@@ -6,9 +6,12 @@ import MusicPlayer from './MusicPlayer'
 import Credit from './Credit'
 import Petals from '../effects/Petals'
 
-/** True on wide viewports — renders the desktop Figma layout (frame 11). */
+/** True on wide viewports *with a mouse* — renders the laptop/desktop layout.
+ *  Touch tablets (iPad mini/Air/Pro — pointer: coarse) always get the mobile
+ *  layout, even at >=1024px, so the (still-in-design) laptop hero never shows
+ *  on an iPad Pro. */
 function useIsDesktop() {
-  const q = '(min-width: 1024px)'
+  const q = '(min-width: 1024px) and (pointer: fine)'
   const [isDesktop, setIsDesktop] = useState(
     () => typeof window !== 'undefined' && window.matchMedia(q).matches,
   )
