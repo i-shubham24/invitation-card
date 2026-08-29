@@ -16,9 +16,10 @@ import './EnvelopeIntro.css'
 const REVEAL_LEAD = 0.4 // start revealing the site this many seconds before the clip ends
 const SAFETY_MS = 11000 // hard cap: never strand the guest on the opening screen (desktop clip is ~10s)
 
-// The wide "card opens upward" clip is used from 461px up (tablets + laptops);
-// only small phones (<=460px) keep the portrait clip.
-const WIDE_Q = '(min-width: 461px)'
+// The wide "card opens upward" clip is only for laptops/desktops (wide screen
+// AND a mouse). Phones and all touch tablets/iPads get the portrait clip —
+// matching the site's mobile-on-touch layout rule.
+const WIDE_Q = '(min-width: 1024px) and (pointer: fine)'
 const WIDE_RATE = 1.7 // play the wide clip faster — the card lifts up more briskly
 function useWideClip() {
   const [d, setD] = useState(() => typeof window !== 'undefined' && window.matchMedia(WIDE_Q).matches)

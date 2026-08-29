@@ -42,8 +42,10 @@
   width: max(100vw, calc(100dvh * 720 / 1280));
   height: max(100dvh, calc(100vw * 1280 / 720));
 }
-/* Only real desktops get the contained card on the blush field. */
-@media (min-width: 1024px) {
+/* Only real (mouse) desktops get the contained card on the blush field. Touch
+   iPads/tablets keep the cover sizing above so the portrait envelope fills the
+   screen (zoom-and-fit) with no blank blush band. */
+@media (min-width: 1024px) and (pointer: fine) {
   .env2__stage {
     width: auto;
     height: 100dvh;
