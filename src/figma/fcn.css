@@ -8,8 +8,8 @@
   width: 100%;
   margin: 0 auto;
   container-type: inline-size; /* cqw resolves against the board width */
-  overflow: hidden;
-  isolation: isolate;
+  overflow: visible;
+  isolation: isolate; z-index: 10;
   /* pink -> soft lavender -> blush, ending on #f2c1bc so it blends into the
      existing desktop canvas gradient below */
   background: linear-gradient(
@@ -76,10 +76,10 @@
 /* Crop the OLD desktop canvas above its "SCHEDULE OF EVENTS" heading (the new
    board already covers hero -> "A CELEBRATION…"). Crop point = 40.75% of the
    tall .figd; as a % of width that's 40.75 * (16833/1178) ≈ 582.4%. */
-.figd-crop {
+.figd-crop { position: relative; z-index: 1;
   width: 100%;
   overflow: hidden;
 }
 .figd-crop > .figd {
-  margin-top: -543.3%;
+  margin-top: -505.8%;
 }
