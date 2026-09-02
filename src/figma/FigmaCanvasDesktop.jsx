@@ -139,7 +139,7 @@ const SCRATCH_RECT = { x: 26.06, y: 5.068, w: 48.13, h: 1.241 }
 const CD_BOX = { x: 26.66, y: 11.014, w: 46.01 }
 // RSVP form region — aligned to the Figma name-input width; shifted down with
 // the taller canvas (Sukhmani card inserted above in the schedule).
-const FORM_BOX = { x: 20.37, y: 89.687, w: 60.44 }
+const FORM_BOX = { x: 20.37, y: 87.944, w: 60.44 }
 
 // RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30)
 const RSVP_HEAD = new Set(['683:2679', '683:2775', '683:2776', '683:2684'])
@@ -154,14 +154,14 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
       ))}
 
       {/* Decorative images for Note section (scaled for desktop heights) */}
-      <Item it={{ id: 'msg1', kind: 'img', z: 89, x: -5, y: 84.86, w: 58.5, h: 2.73, src: '/figma/msg1.png', contain: true }} />
-      <Item it={{ id: 'msg3', kind: 'img', z: 89, x: 5, y: 84.57, w: 81.0, h: 3.19, src: '/figma/msg3.png', contain: true }} />
-      <Item it={{ id: 'msg2', kind: 'img', z: 89, x: 10, y: 84.65, w: 83.5, h: 3.86, src: '/figma/msg2.png', contain: true }} />
+      <Item it={{ id: 'msg1', kind: 'img', z: 89, x: -5, y: 78.87, w: 58.5, h: 3.19, src: '/figma/msg1.png', contain: true }} />
+      <Item it={{ id: 'msg3', kind: 'img', z: 89, x: 5, y: 78.52, w: 81.0, h: 3.73, src: '/figma/msg3.png', contain: true }} />
+      <Item it={{ id: 'msg2', kind: 'img', z: 89, x: 10, y: 78.62, w: 83.5, h: 4.52, src: '/figma/msg2.png', contain: true }} />
 
       {/* Form background — scalloped "3 curve hills" panel, sized to end just
           below SEND RSVP with the single-column events; vbh scales with the
           height so the bumps keep their proportion (stay round). */}
-      <ScallopPanel x={5.526} y={88.177} w={85.992} h={5.044} vbh={935} />
+      <ScallopPanel x={5.526} y={86.178} w={85.992} h={5.89} vbh={935} />
 
       <ScratchFig rect={SCRATCH_RECT} date="3 December, 2026" />
 
@@ -169,7 +169,7 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
         <Countdown />
       </div>
 
-      <NoteCard style={{ top: '86.71%', width: '51%', left: '24.5%' }} />
+      <NoteCard style={{ top: '80.92%', width: '51%', left: '24.5%' }} />
 
       <div className="figd__form" style={{ left: `${FORM_BOX.x}%`, top: `${FORM_BOX.y}%`, width: `${FORM_BOX.w}%` }}>
         <RsvpFormFig onSaved={onRsvpSaved} />

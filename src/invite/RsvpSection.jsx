@@ -217,7 +217,7 @@ export default function RsvpSection({ onSaved }) {
         <p className="rsvp-foot__names">Akashdeep &amp; Harmandip</p>
         <img className="rsvp-foot__div" src="/decor/divider.png" alt="" aria-hidden />
         <p className="rsvp-foot__date">{WEDDING_DATE}</p>
-        <p className="rsvp-foot__tag">#AKASHKAMANN</p>
+        <p className="rsvp-foot__tag">#HarManSeAkashTak</p>
       </footer>
     </section>
   )
