@@ -139,7 +139,7 @@ const SCRATCH_RECT = { x: 26.06, y: 5.068, w: 48.13, h: 1.241 }
 const CD_BOX = { x: 26.66, y: 11.014, w: 46.01 }
 // RSVP form region — aligned to the Figma name-input width; shifted down with
 // the taller canvas (Sukhmani card inserted above in the schedule).
-const FORM_BOX = { x: 30.37, y: 88.10, w: 40.44 }
+const FORM_BOX = { x: 20.37, y: 89.62, w: 60.44 }
 
 // RSVP heading block (RSVP / Kindly Respond / BEFORE / SEPTEMBER 30)
 const RSVP_HEAD = new Set(['683:2679', '683:2775', '683:2776', '683:2684'])
@@ -161,7 +161,7 @@ export default function FigmaCanvasDesktop({ onRsvpSaved, opened }) {
       {/* Form background — scalloped "3 curve hills" panel, sized to end just
           below SEND RSVP with the single-column events; vbh scales with the
           height so the bumps keep their proportion (stay round). */}
-      <ScallopPanel x={15.526} y={86.34} w={65.992} h={6.13} vbh={935} />
+      <ScallopPanel x={5.526} y={87.85} w={85.992} h={5.86} vbh={935} />
 
       <ScratchFig rect={SCRATCH_RECT} date="3 December, 2026" />
 
