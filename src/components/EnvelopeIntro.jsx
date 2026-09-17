@@ -3,7 +3,7 @@ import { playMusic } from '../lib/music'
 import './EnvelopeIntro.css'
 
 /**
- * EnvelopeIntro — the sealed invitation. Shows the poster with a pulsing heart;
+ * EnvelopeIntro — the sealed invitation. Show the poster with a pulsing heart;
  * tapping the heart starts the song and plays the "opens upward" clip, then
  * cross-fades the site out of the opened envelope.
  *
